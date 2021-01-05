@@ -87,6 +87,19 @@
                 }
             }
         }),
+        $.get("api/tuning", function (tunings) {
+            select = document.getElementById("select_tuning");
+            if (tunings !== undefined) {
+                for (let tuning of tunings) {
+                    tuning = tuning["tuning"].toString();
+                    option = document.createElement("option");
+                    option.setAttribute("value", tuning.toString());
+                    option.setAttribute("class", "option-selector-customer");
+                    option.innerHTML = tuning.toString();
+                    select.appendChild(option);
+                }
+            }
+        }),
         $.get("api/language", function (languages_list) {
             select = document.getElementById("language-selector-info0");
             if (languages_list !== undefined) {
@@ -510,6 +523,14 @@
                                 </option>
                             </select>
                         </div>
+                        <div class="form-group-customer">
+                            <label for="select_tuning" class="input-text-label-customer w-100">Choose song's
+                                tuning</label>
+                            <select id="select_tuning" onchange="validateForm()"
+                                    class="input-form-customer input-text-customer select-form-customer input-text-customer w-75">
+                                <option disabled selected hidden class="option-selector-customer multi">Choose song's tuning</option>
+                            </select>
+                        </div>
                         <div class="form-group-customer" id="language_block">
                             <label for="language-selector-info0"
                                    class="language-selector-info input-text-label-customer w-100 row justify-content-between">
@@ -522,6 +543,7 @@
                                 </option>
                             </select>
                         </div>
+
                     </div>
                     <div class="col-sm-5 block-customer">
                         <textarea oninput="validateForm()" id="song_text"
