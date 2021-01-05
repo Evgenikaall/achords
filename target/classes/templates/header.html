@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="header">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <div class="navbar-brand col-sm-2 logo-container mr-auto">
+                <img th:src="@{/img/logo.png}" th:href="@{/}" class="logo">
+            </div>
+            <ul class="navbar-nav col-sm-4" id="navbar-links">
+                <li class="nav-item"><a href="#" class="nav-link">Tabs</a></li>
+                <li class="nav-item ml-auto"><a href="#" class="nav-link">News</a></li>
+                <li class="nav-item ml-auto"><a th:href="@{/add_new}" class="nav-link">Post Tabs</a></li>
+            </ul>
+            <div class="col-sm-4" id="searchRowSize">
+                <form class="form-inline">
+                    <input type="search" placeholder="Search" class="search-form w-100" id="searchRow">
+                </form>
+            </div>
+            <ul class="navbar-nav col-sm-1 mr-auto">
+                <li class="nav-item "><a th:href="@{/login}" class="nav-link">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+</body>
+</html>

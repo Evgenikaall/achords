@@ -1,0 +1,19 @@
+/*
+font-family: 'Libre Baskerville', serif;
+font-family: 'Nixie One', cursive;
+*/
+*{
+    color: #ffffff;
+    padding:0;
+    margin: 0;
+}
+
+.hidden{
+    display: none;
+}
+
+
+.page{
+    background-image: url(../img/bg.jpg);
+    background-repeat: repeat;
+}
