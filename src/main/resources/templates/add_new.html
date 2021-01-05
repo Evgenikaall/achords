@@ -172,9 +172,9 @@
                 let selection = document.createElement("select");
                 selection.setAttribute("class", "input-form-customer input-text-customer " +
                     "select-form-customer input-text-customer w-75 multi");
-                selection.setAttribute("onchange","validateForm()");
+                selection.setAttribute("onchange", "validateForm()");
 
-                selection.setAttribute("id","strumming-pattern-selector-info".concat(strumming_counter.toString()));
+                selection.setAttribute("id", "strumming-pattern-selector-info".concat(strumming_counter.toString()));
 
                 strumming_counter++;
 
@@ -213,8 +213,8 @@
                 let selection = document.createElement("select");
                 selection.setAttribute("class", "input-form-customer input-text-customer " +
                     "select-form-customer input-text-customer w-75 multi");
-                selection.setAttribute("onchange","validateForm()");
-                selection.setAttribute("id","language-selector-info".concat(languages_counter.toString()));
+                selection.setAttribute("onchange", "validateForm()");
+                selection.setAttribute("id", "language-selector-info".concat(languages_counter.toString()));
 
                 languages_counter++;
 
@@ -251,8 +251,8 @@
                 let selection = document.createElement("select");
                 selection.setAttribute("class", "input-form-customer input-text-customer " +
                     "select-form-customer input-text-customer w-75 multi");
-                selection.setAttribute("onchange","validateForm()");
-                selection.setAttribute("id","genres-selector-info".concat(genres_counter.toString()));
+                selection.setAttribute("onchange", "validateForm()");
+                selection.setAttribute("id", "genres-selector-info".concat(genres_counter.toString()));
                 let option = document.createElement("option");
                 option.setAttribute("class", "option-selector-customer");
                 option.setAttribute("disabled", "");
@@ -282,35 +282,70 @@
 </script>
 
 <script>
-    function validateForm(){
+
+    function getAnswer(song,author,genres,difficult,strummingPatterns,sectionType,languages,lyrics){
+        let statement = true;
+
+        if(song.length == 0){
+            statement = false;
+        }
+
+        if(author.length == 0){
+            statement = false;
+        }
+
+        return statement;
+
+    }
+
+    function validateForm() {
         var song = $("#song_name").val();
         var author = $("#author").val();
         var genres = [];
-        for (let i = 0; i < genres_counter;i++){
+
+        for (let i = 0; i < genres_counter; i++) {
             genres.push($("#genres-selector-info".concat(i.toString())).val());
         }
-        var difficult = $("#select_difficult").val();
+
+        var difficult = ($("#select_difficult").val() != null) ? $("#select_difficult").val() : "";
+
         var strummingPatterns = [];
-        for (let i = 0; i < strumming_counter;i++){
+
+        for (let i = 0; i < strumming_counter; i++) {
             strummingPatterns.push($("#strumming-pattern-selector-info".concat(i.toString())).val());
         }
-        var sectionType = $("#select_section_type").val();
+
+        var sectionType = ($("#select_section_type").val() != null) ? $("#select_section_type").val() : "";
+
         var languages = [];
-        for(let i = 0; i < languages_counter;i++){
+        for (let i = 0; i < languages_counter; i++) {
             languages.push($("#language-selector-info".concat(i.toString())).val())
         }
 
-        var lyrics = $("#song_text");
+        var lyrics = $("#song_text").val();
 
+        for (let genre of genres)
+            console.log(genre);
+
+        console.log(song.length + ' - length - ');
         console.log(song);
+        console.log(author.length + ' : length - ');
         console.log(author);
+        console.log(genres.length + ': length - ');
         console.log(genres);
+        console.log(difficult.length + ': length - ');
         console.log(difficult);
+        console.log(strummingPatterns.length + ': length - ');
         console.log(strummingPatterns);
+        console.log(sectionType.length + ': length - ');
         console.log(sectionType);
+        console.log(languages.length + ': length - ');
         console.log(languages);
+        console.log(lyrics.length + ': length - ');
         console.log(lyrics);
         console.log("--------")
+
+        let answer = getAnswer(song,author,genres,difficult,strummingPatterns,sectionType,languages,lyrics);
     }
 </script>
 
@@ -323,7 +358,8 @@
                 <div class="row">
                     <div class="col-sm-7 block-customer left-block-customer">
                         <div class="form-group-customer">
-                            <label for="song_name" class="input-text-label-customer input-text-customer w-100">Input song's name</label>
+                            <label for="song_name" class="input-text-label-customer input-text-customer w-100">Input
+                                song's name</label>
                             <input type="text" placeholder="Song's name" id="song_name" onchange="validateForm()"
                                    class="input-form-customer song-name w-75">
                         </div>
@@ -345,7 +381,7 @@
                             <select
                                     id="genres-selector-info0" onchange="validateForm()"
                                     class="genres-selector-info input-form-customer input-text-customer select-form-customer input-text-customer w-75 multi">
-                                <option disabled selected class="option-selector-customer">Choose song's genres</option>
+                                <option disabled selected hidden class="option-selector-customer">Choose song's genres</option>
                             </select>
                         </div>
                         <div class="form-group-customer">
@@ -353,20 +389,21 @@
                                 difficult</label>
                             <select id="select_difficult" onchange="validateForm()"
                                     class="input-form-customer input-text-customer select-form-customer input-text-customer w-75">
-                                <option disabled selected class="option-selector-customer">Choose song's difficult
+                                <option disabled selected hidden class="option-selector-customer">Choose song's difficult
                                     level
                                 </option>
                             </select>
                         </div>
                         <div class="form-group-customer" id="strumming_pattern_block">
-                            <label for="strumming-pattern-selector-info0" class="input-text-label-customer w-100 row justify-content-between">
+                            <label for="strumming-pattern-selector-info0"
+                                   class="input-text-label-customer w-100 row justify-content-between">
                                 <div>Choose song's strumming patterns</div>
                                 <button type="button" class="plus-button" onclick="addStrummingSelection()">+</button>
                             </label>
                             <select
                                     id="strumming-pattern-selector-info0" onchange="validateForm()"
                                     class="strumming-pattern-selector-info input-form-customer input-text-customer select-form-customer input-text-customer w-75 multi">
-                                <option disabled selected class="option-selector-customer">Choose song's strumming
+                                <option disabled selected  hidden class="option-selector-customer">Choose song's strumming
                                     patterns
                                 </option>
                             </select>
@@ -376,7 +413,7 @@
                                 section type</label>
                             <select id="select_section_type" onchange="validateForm()"
                                     class="input-form-customer input-text-customer select-form-customer input-text-customer w-75">
-                                <option disabled selected class="option-selector-customer multi">Choose song's section
+                                <option disabled selected hidden class="option-selector-customer multi">Choose song's section
                                     type
                                 </option>
                             </select>
@@ -389,21 +426,20 @@
                             </label>
                             <select id="language-selector-info0" onchange="validateForm()"
                                     class="input-form-customer multi input-text-customer select-form-customer input-text-customer w-75">
-                                <option disabled selected class="option-selector-customer">Choose song's language
+                                <option disabled selected hidden class="option-selector-customer">Choose song's language
                                 </option>
                             </select>
                         </div>
                     </div>
                     <div class="col-sm-5 block-customer">
                         <textarea onchange="validateForm()" id="song_text"
-                                class="song-input input-form-customer text-area-customer input-text-customer song-input-text"
-                                placeholder="Song's lyrics..."></textarea>
+                                  class="song-input input-form-customer text-area-customer input-text-customer song-input-text"
+                                  placeholder="Song's lyrics..."></textarea>
                     </div>
                 </div>
             </form>
             <div class="append-body-header top-part text-center">
-
-                <button>button</button>
+                <button id="submit_button">save</button>
             </div>
         </div>
     </div>
