@@ -1,3 +1,5 @@
+
+
 .append-body{
     margin: 4% 0;
     background-color: #211b1b;
@@ -20,9 +22,6 @@
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.append-body-header:hover{
-    border-bottom: 1px solid rgba(255, 255, 255, 0.75);
-}
 
 .left-block-customer{
     border-right: 1px solid rgba(255, 255, 255, 0.1);
@@ -197,4 +196,27 @@ input[list]{
 
     box-shadow: 0 0 1px;
 
+}
+
+#bottom_button_block{
+    display: none;
+}
+
+#submit_button{
+    display: inline-block;
+    width: 50%;
+    background-color: #332727;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(176, 129, 79, 0.1);
+
+}
+#submit_button:hover{
+
+}
+#submit_button > p{
+    font-family: "Nixie One";
+    text-align: center;
+    margin: 0;
 }

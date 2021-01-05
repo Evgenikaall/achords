@@ -25,6 +25,7 @@
     let genres_counter = 1;
     let languages_counter = 1;
     let strumming_counter = 1;
+    var result;
 </script>
 
 
@@ -182,6 +183,7 @@
                 option.setAttribute("class", "option-selector-customer");
                 option.setAttribute("disabled", "");
                 option.setAttribute("selected", "");
+                option.setAttribute("hidden", "");
                 option.innerHTML = "Choose song's strumming patterns";
                 selection.appendChild(option)
 
@@ -197,6 +199,7 @@
 
                 }
                 section.appendChild(selection);
+                validateForm();
             } else {
 
                 customAlert.customAlertShow("Are selected more patterns than allowed", "Warning !");
@@ -222,6 +225,7 @@
                 option.setAttribute("class", "option-selector-customer");
                 option.setAttribute("disabled", "");
                 option.setAttribute("selected", "");
+                option.setAttribute("hidden", "");
                 option.innerHTML = "Choose song's language";
                 selection.appendChild(option)
 
@@ -237,6 +241,7 @@
                 }
 
                 section.appendChild(selection);
+                validateForm();
             } else {
                 customAlert.customAlertShow("Are selected more languages than allowed", "Warning !");
             }
@@ -257,6 +262,7 @@
                 option.setAttribute("class", "option-selector-customer");
                 option.setAttribute("disabled", "");
                 option.setAttribute("selected", "");
+                option.setAttribute("hidden", "");
                 option.innerHTML = "Choose song's genres";
                 selection.appendChild(option)
 
@@ -274,6 +280,7 @@
                 }
 
                 section.appendChild(selection);
+                validateForm();
             } else {
                 customAlert.customAlertShow("Are selected more genres than allowed", "Warning !");
             }
@@ -282,15 +289,65 @@
 </script>
 
 <script>
+    class Song{
+        constructor() {
+        }
+        setValues(song, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics){
+            this.song = song;
+            this.author = author;
+            this.genres = genres;
+            this.difficult = difficult;
+            this.strummingPatterns = strummingPatterns;
+            this.sectionType = sectionType;
+            this.languages = languages;
+            this.lyrics = lyrics;
+        }
+    }
+</script>
 
-    function getAnswer(song,author,genres,difficult,strummingPatterns,sectionType,languages,lyrics){
+<script>
+
+    function getAnswer(song, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics) {
         let statement = true;
 
-        if(song.length == 0){
+        if (song.length === 0) {
             statement = false;
         }
 
-        if(author.length == 0){
+        if (author.length === 0) {
+            statement = false;
+        }
+
+        for (let genre of genres) {
+            if (genre == null) {
+                statement = false;
+                break;
+            }
+        }
+
+        if (difficult.length === 0) {
+            statement = false;
+        }
+
+        for (let pattern of strummingPatterns) {
+            if (pattern == null) {
+                statement = false;
+                break;
+            }
+        }
+
+        if (sectionType.length === 0) {
+            statement = false;
+        }
+
+        for (let language of languages) {
+            if (language == null) {
+                statement = false;
+                break;
+            }
+        }
+
+        if (lyrics.length === 0) {
             statement = false;
         }
 
@@ -298,7 +355,9 @@
 
     }
 
+
     function validateForm() {
+        result = new Song();
         var song = $("#song_name").val();
         var author = $("#author").val();
         var genres = [];
@@ -324,31 +383,64 @@
 
         var lyrics = $("#song_text").val();
 
-        for (let genre of genres)
-            console.log(genre);
 
-        console.log(song.length + ' - length - ');
-        console.log(song);
-        console.log(author.length + ' : length - ');
-        console.log(author);
-        console.log(genres.length + ': length - ');
-        console.log(genres);
-        console.log(difficult.length + ': length - ');
-        console.log(difficult);
-        console.log(strummingPatterns.length + ': length - ');
-        console.log(strummingPatterns);
-        console.log(sectionType.length + ': length - ');
-        console.log(sectionType);
-        console.log(languages.length + ': length - ');
-        console.log(languages);
-        console.log(lyrics.length + ': length - ');
-        console.log(lyrics);
-        console.log("--------")
+        // console.log(song.length + ' - length - ');
+        // console.log(song);
+        // console.log(author.length + ' : length - ');
+        // console.log(author);
+        // console.log(genres.length + ': length - ');
+        // console.log(genres);
+        // console.log(difficult.length + ': length - ');
+        // console.log(difficult);
+        // console.log(strummingPatterns.length + ': length - ');
+        // console.log(strummingPatterns);
+        // console.log(sectionType.length + ': length - ');
+        // console.log(sectionType);
+        // console.log(languages.length + ': length - ');
+        // console.log(languages);
+        // console.log(lyrics.length + ': length - ');
+        // console.log(lyrics);
+        // console.log("--------")
 
-        let answer = getAnswer(song,author,genres,difficult,strummingPatterns,sectionType,languages,lyrics);
+        let answer = getAnswer(song, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics);
+
+        if (answer) {
+            result.setValues(song, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics);
+            $("#bottom_button_block").slideDown("slow");
+            console.log(result);
+        } else {
+            $("#bottom_button_block").slideUp("slow");
+        }
     }
 </script>
 
+
+<script>
+    function sendSong() {
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date+' '+time;
+        $.ajax({
+            url:'/api/songs',
+            dataType: 'json',
+            type: 'POST',
+            cache: false,
+            contentType: 'application/json',
+            data: JSON.stringify({
+                songName: result.song,
+                postDate: dateTime,
+                tuning: null,
+                difficultLevel: result.difficult,
+                author: result.author,
+                chordsList: null,
+                genresList: result.genres,
+                languagesList: result.languages,
+                strummingPatternList: result.strummingPatterns
+            })
+        })
+    }
+</script>
 <body class="page">
 <div class="append-body-placement">
     <div class="container">
@@ -360,7 +452,7 @@
                         <div class="form-group-customer">
                             <label for="song_name" class="input-text-label-customer input-text-customer w-100">Input
                                 song's name</label>
-                            <input type="text" placeholder="Song's name" id="song_name" onchange="validateForm()"
+                            <input type="text" placeholder="Song's name" id="song_name" oninput="validateForm()"
                                    class="input-form-customer song-name w-75">
                         </div>
                         <div class="form-group-customer">
@@ -381,7 +473,8 @@
                             <select
                                     id="genres-selector-info0" onchange="validateForm()"
                                     class="genres-selector-info input-form-customer input-text-customer select-form-customer input-text-customer w-75 multi">
-                                <option disabled selected hidden class="option-selector-customer">Choose song's genres</option>
+                                <option disabled selected hidden class="option-selector-customer">Choose song's genres
+                                </option>
                             </select>
                         </div>
                         <div class="form-group-customer">
@@ -389,7 +482,8 @@
                                 difficult</label>
                             <select id="select_difficult" onchange="validateForm()"
                                     class="input-form-customer input-text-customer select-form-customer input-text-customer w-75">
-                                <option disabled selected hidden class="option-selector-customer">Choose song's difficult
+                                <option disabled selected hidden class="option-selector-customer">Choose song's
+                                    difficult
                                     level
                                 </option>
                             </select>
@@ -403,7 +497,8 @@
                             <select
                                     id="strumming-pattern-selector-info0" onchange="validateForm()"
                                     class="strumming-pattern-selector-info input-form-customer input-text-customer select-form-customer input-text-customer w-75 multi">
-                                <option disabled selected  hidden class="option-selector-customer">Choose song's strumming
+                                <option disabled selected hidden class="option-selector-customer">Choose song's
+                                    strumming
                                     patterns
                                 </option>
                             </select>
@@ -413,7 +508,8 @@
                                 section type</label>
                             <select id="select_section_type" onchange="validateForm()"
                                     class="input-form-customer input-text-customer select-form-customer input-text-customer w-75">
-                                <option disabled selected hidden class="option-selector-customer multi">Choose song's section
+                                <option disabled selected hidden class="option-selector-customer multi">Choose song's
+                                    section
                                     type
                                 </option>
                             </select>
@@ -432,14 +528,14 @@
                         </div>
                     </div>
                     <div class="col-sm-5 block-customer">
-                        <textarea onchange="validateForm()" id="song_text"
+                        <textarea oninput="validateForm()" id="song_text"
                                   class="song-input input-form-customer text-area-customer input-text-customer song-input-text"
                                   placeholder="Song's lyrics..."></textarea>
                     </div>
                 </div>
             </form>
-            <div class="append-body-header top-part text-center">
-                <button id="submit_button">save</button>
+            <div id="bottom_button_block" class="append-body-header top-part text-center">
+                <button id="submit_button" onclick="sendSong()" class="input-form-customer"><p>Save</p></button>
             </div>
         </div>
     </div>

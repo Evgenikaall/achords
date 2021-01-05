@@ -44,4 +44,5 @@ public class Song {
     @ManyToMany
     private List<StrummingPattern> strummingPatternList = new ArrayList<>();
 
+    //text song
 }
