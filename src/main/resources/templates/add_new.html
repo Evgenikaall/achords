@@ -25,7 +25,7 @@
     let genres_counter = 1;
     let languages_counter = 1;
     let strumming_counter = 1;
-    var result;
+    let result;
 </script>
 
 
@@ -83,6 +83,19 @@
                     option.setAttribute("value", section_type.toString());
                     option.setAttribute("class", "option-selector-customer");
                     option.innerHTML = section_type.toString();
+                    select.appendChild(option);
+                }
+            }
+        }),
+        $.get("api/tuning", function (tunings) {
+            select = document.getElementById("select_tuning");
+            if (tunings !== undefined) {
+                for (let tuning of tunings) {
+                    tuning = tuning["tuning"].toString();
+                    option = document.createElement("option");
+                    option.setAttribute("value", tuning.toString());
+                    option.setAttribute("class", "option-selector-customer");
+                    option.innerHTML = tuning.toString();
                     select.appendChild(option);
                 }
             }
@@ -289,14 +302,16 @@
 </script>
 
 <script>
-    class Song{
+    class Song {
         constructor() {
         }
-        setValues(song, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics){
+
+        setValues(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics) {
             this.song = song;
             this.author = author;
             this.genres = genres;
             this.difficult = difficult;
+            this.tuning = tuning;
             this.strummingPatterns = strummingPatterns;
             this.sectionType = sectionType;
             this.languages = languages;
@@ -307,9 +322,12 @@
 
 <script>
 
-    function getAnswer(song, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics) {
+    function getAnswer(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics) {
         let statement = true;
 
+        if (tuning.length === 0) {
+            statement = false;
+        }
         if (song.length === 0) {
             statement = false;
         }
@@ -358,30 +376,32 @@
 
     function validateForm() {
         result = new Song();
-        var song = $("#song_name").val();
-        var author = $("#author").val();
-        var genres = [];
+        let song = $("#song_name").val();
+        let author = $("#author").val();
+        let tuning = ($("#select_tuning").val() != null) ? $("#select_tuning").val() : "";
+
+        let genres = [];
 
         for (let i = 0; i < genres_counter; i++) {
             genres.push($("#genres-selector-info".concat(i.toString())).val());
         }
 
-        var difficult = ($("#select_difficult").val() != null) ? $("#select_difficult").val() : "";
+        let difficult = ($("#select_difficult").val() != null) ? $("#select_difficult").val() : "";
 
-        var strummingPatterns = [];
+        let strummingPatterns = [];
 
         for (let i = 0; i < strumming_counter; i++) {
             strummingPatterns.push($("#strumming-pattern-selector-info".concat(i.toString())).val());
         }
 
-        var sectionType = ($("#select_section_type").val() != null) ? $("#select_section_type").val() : "";
+        let sectionType = ($("#select_section_type").val() != null) ? $("#select_section_type").val() : "";
 
-        var languages = [];
+        let languages = [];
         for (let i = 0; i < languages_counter; i++) {
             languages.push($("#language-selector-info".concat(i.toString())).val())
         }
 
-        var lyrics = $("#song_text").val();
+        let lyrics = $("#song_text").val();
 
 
         // console.log(song.length + ' - length - ');
@@ -402,10 +422,10 @@
         // console.log(lyrics);
         // console.log("--------")
 
-        let answer = getAnswer(song, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics);
+        let answer = getAnswer(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics);
 
         if (answer) {
-            result.setValues(song, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics);
+            result.setValues(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics);
             $("#bottom_button_block").slideDown("slow");
             console.log(result);
         } else {
@@ -418,7 +438,7 @@
 <script>
     function sendSong() {
         $.ajax({
-            url:'/api/songs',
+            url: '/api/songs',
             dataType: 'json',
             type: 'POST',
             cache: false,
@@ -426,8 +446,8 @@
             data: JSON.stringify({
                 songName: result.song.toString(),
                 postDate: null,
-                tuning: null,
-                difficultLevel: 1,
+                tuning: result.tuning,
+                difficultLevel: result.difficult.toString(),
                 author: result.author.toString(),
                 chordsList: null,
                 genresList: result.genres,
@@ -510,6 +530,16 @@
                                 </option>
                             </select>
                         </div>
+                        <div class="form-group-customer">
+                            <label for="select_tuning" class="input-text-label-customer w-100">Choose song's
+                                tuning</label>
+                            <select id="select_tuning" onchange="validateForm()"
+                                    class="input-form-customer input-text-customer select-form-customer input-text-customer w-75">
+                                <option disabled selected hidden class="option-selector-customer multi">Choose song's
+                                    tuning
+                                </option>
+                            </select>
+                        </div>
                         <div class="form-group-customer" id="language_block">
                             <label for="language-selector-info0"
                                    class="language-selector-info input-text-label-customer w-100 row justify-content-between">
@@ -522,6 +552,7 @@
                                 </option>
                             </select>
                         </div>
+
                     </div>
                     <div class="col-sm-5 block-customer">
                         <textarea oninput="validateForm()" id="song_text"
