@@ -417,10 +417,6 @@
 
 <script>
     function sendSong() {
-        var today = new Date();
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        var dateTime = date+' '+time;
         $.ajax({
             url:'/api/songs',
             dataType: 'json',
@@ -428,11 +424,11 @@
             cache: false,
             contentType: 'application/json',
             data: JSON.stringify({
-                songName: result.song,
-                postDate: dateTime,
+                songName: result.song.toString(),
+                postDate: null,
                 tuning: null,
-                difficultLevel: result.difficult,
-                author: result.author,
+                difficultLevel: 1,
+                author: result.author.toString(),
                 chordsList: null,
                 genresList: result.genres,
                 languagesList: result.languages,

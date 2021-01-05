@@ -45,4 +45,5 @@ public class Song {
     private List<StrummingPattern> strummingPatternList = new ArrayList<>();
 
     //text song
+    // difficult get by id
 }
