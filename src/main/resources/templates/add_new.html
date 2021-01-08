@@ -91,11 +91,11 @@
             select = document.getElementById("select_tuning");
             if (tunings !== undefined) {
                 for (let tuning of tunings) {
-                    tuning = tuning["tuning"].toString();
+                    // tuning = tuning["tuning"].toString();
                     option = document.createElement("option");
-                    option.setAttribute("value", tuning.toString());
+                    option.setAttribute("value", JSON.stringify(tuning));
                     option.setAttribute("class", "option-selector-customer");
-                    option.innerHTML = tuning.toString();
+                    option.innerHTML = tuning["tuning"].toString();
                     select.appendChild(option);
                 }
             }
@@ -446,13 +446,13 @@
             data: JSON.stringify({
                 songName: result.song.toString(),
                 postDate: null,
-                tuning: result.tuning,
+                tuning: result.tuning.toString(),
                 difficultLevel: result.difficult.toString(),
                 author: result.author.toString(),
                 chordsList: null,
-                genresList: result.genres,
-                languagesList: result.languages,
-                strummingPatternList: result.strummingPatterns
+                genresList: null,
+                languagesList: null,
+                strummingPatternList: null
             })
         })
     }

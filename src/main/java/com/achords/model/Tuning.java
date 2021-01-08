@@ -3,17 +3,23 @@ package com.achords.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.repository.cdi.Eager;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
 @Table(name = "instrument_tuning")
-@AllArgsConstructor
 @NoArgsConstructor
-public class Tuning {
+@AllArgsConstructor
+public class Tuning{
+
     @Id
     private String tuning;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "songTuning")
+    private List<Song> songList;
 }

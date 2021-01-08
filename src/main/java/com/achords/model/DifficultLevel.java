@@ -11,16 +11,16 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "difficult_level")
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class DifficultLevel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer difficultId;
 
     private String difficultName;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "difficultLevel")
     private List<Song> songListFilteredByDifficult = new ArrayList<>();
 }

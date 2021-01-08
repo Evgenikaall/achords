@@ -12,16 +12,16 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "genres")
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer genreId;
 
     private String nameGenre;
 
-    @ManyToMany
-    private List<Song> songListOrderByGenre = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Song> songGenres;
 }

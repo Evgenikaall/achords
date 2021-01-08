@@ -11,16 +11,16 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "language")
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Language {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer languageId;
 
     private String languageName;
 
-    @ManyToMany
-    private List<Song> songListFilteredByLanguage = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Song> songLanguages;
 }

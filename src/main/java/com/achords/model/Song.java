@@ -1,14 +1,22 @@
 package com.achords.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
+import org.springframework.web.servlet.tags.form.TextareaTag;
+import org.w3c.dom.Text;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Data
 @Table(name = "song")
-public class Song {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Song implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,35 +26,38 @@ public class Song {
 
     private Date postDate;
 
-    @ManyToOne
-    @JoinColumn(name = "tuning",insertable = false, updatable = false)
-    private Tuning tuning;
 
-    @ManyToOne
-    @JoinColumn(name = "difficult_id",insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(updatable = false, insertable = false)
     private DifficultLevel difficultLevel;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id",insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(updatable = false, insertable = false)
+    private Tuning songTuning;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(insertable = false, updatable = false)
     private Author author;
 
-    @ManyToOne
-    @JoinColumn(name = "section_type_id",insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(insertable = false, updatable = false)
     private SectionType sectionType;
 
-    @OneToMany
-    @JoinColumn(name = "chord_name",insertable = false, updatable = false)
-    private List<Chords> chordsList = new ArrayList<>();
+    @ManyToMany(mappedBy = "songChords")
+    private List<Chords> chordsList;
 
-    @ManyToMany
-    private List<Genre> genreList = new ArrayList<>();
+    @ManyToMany(mappedBy = "songGenres")
+    private List<Genre> genreList;
 
-    @ManyToMany
-    private List<Language> languagesList = new ArrayList<>();
+    @ManyToMany(mappedBy = "songLanguages")
+    private List<Language> languagesList;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "songStrummingPatterns")
+    private List<StrummingPattern> strummingPatternList;
 
-    private List<StrummingPattern> strummingPatternList = new ArrayList<>();
+    @Lob
+    @Type(type = "text")
+    private String songLyrics;
 
     //text song
     // difficult get by id
