@@ -4,10 +4,8 @@ import com.achords.model.Author;
 import com.achords.service.AuthorService;
 import com.achords.utils.exceptions.AuthorNotFoundException;
 import com.achords.utils.exceptions.EmptyRequestBodyException;
-import com.achords.utils.exceptions.IdAuthorNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +31,7 @@ public class RestAuthorsController {
     public ResponseEntity<Author> getAuthorById(@PathVariable Integer id){
         try{
             return ResponseEntity.ok(authorService.getAuthorById(id));
-        } catch (IdAuthorNotFoundException e) {
+        } catch (AuthorNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }

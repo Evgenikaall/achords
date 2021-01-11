@@ -3,7 +3,6 @@ package com.achords.service;
 import com.achords.model.Song;
 import com.achords.repository.SongRepo;
 import com.achords.utils.exceptions.EmptyRequestBodyException;
-import com.achords.utils.exceptions.IdSongNotFoundException;
 import com.achords.utils.exceptions.SongNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,8 +44,8 @@ public class SongService {
         return songRepo.findAll();
     }
 
-    public Song findSongById(Integer id) throws IdSongNotFoundException {
-        return songRepo.findById(id).orElseThrow(IdSongNotFoundException::new);
+    public Song findSongById(Integer id) throws SongNotFoundException {
+        return songRepo.findById(id).orElseThrow(SongNotFoundException::new);
     }
 
 

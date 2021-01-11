@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,7 @@ public class Chords {
 
     private String chordImgPath;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<Song> songChords;
+    @ManyToMany
+    private List<Song> songChords = new ArrayList<>();
 
 }

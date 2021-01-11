@@ -496,6 +496,12 @@
 
 <script>
     function sendSong() {
+        let chordList = JSON.stringify({
+            chordName : 'Am',
+            chordImgPath : 'Path'
+        });
+        chordList = JSON.parse(chordList);
+        console.log(chordList);
         $.ajax({
             url: '/api/songs',
             dataType: 'json',

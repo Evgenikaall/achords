@@ -19,4 +19,7 @@ public class Tuning{
 
     @Id
     private String tuning;
+
+    @OneToMany
+    private List<Song> songList;
 }

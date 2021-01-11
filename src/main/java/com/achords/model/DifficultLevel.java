@@ -17,7 +17,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@SuppressWarnings("JpaAttributeTypeInspection")
 public class DifficultLevel implements Serializable {
 
     @Id
@@ -25,4 +24,7 @@ public class DifficultLevel implements Serializable {
     private Integer difficultId;
 
     private String difficultName;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "difficultLevel")
+    private List<Song> songList;
 }

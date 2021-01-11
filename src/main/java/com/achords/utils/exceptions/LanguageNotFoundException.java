@@ -3,5 +3,4 @@ package com.achords.utils.exceptions;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class IdSongNotFoundException extends Exception{
-}
+public class LanguageNotFoundException extends Exception{}

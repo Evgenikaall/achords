@@ -24,6 +24,6 @@ public class Author {
     private String authorImgPath;
 
     @OneToMany
-    private List<Song> songList = new ArrayList<>();
+    private List<Song> songList;
 
 }

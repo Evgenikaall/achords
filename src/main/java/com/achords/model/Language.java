@@ -21,6 +21,6 @@ public class Language {
 
     private String languageName;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Song> songLanguages;
 }

@@ -26,6 +26,10 @@ public class DifficultLevelService {
         return difficultLevelRepo.findAll();
     }
 
+    public DifficultLevel findById(Integer id) throws DifficultLevelNotFoundException {
+        return difficultLevelRepo.findById(id).orElseThrow(DifficultLevelNotFoundException::new);
+    }
+
     public void delete(DifficultLevel difficultLevel) throws DifficultLevelNotFoundException {
         if(difficultLevel == null)
             throw new DifficultLevelNotFoundException();

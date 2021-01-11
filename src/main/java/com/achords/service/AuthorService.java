@@ -4,7 +4,6 @@ import com.achords.model.Author;
 import com.achords.repository.AuthorRepo;
 import com.achords.utils.exceptions.AuthorNotFoundException;
 import com.achords.utils.exceptions.EmptyRequestBodyException;
-import com.achords.utils.exceptions.IdAuthorNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +21,10 @@ public class AuthorService {
         } else {
             return authorRepo.save(newAuthor);
         }
+    }
+
+    public Author findById(Integer id) throws AuthorNotFoundException {
+        return authorRepo.findById(id).orElseThrow(AuthorNotFoundException::new);
     }
 
     public Author update(Author updatedAuthor) throws EmptyRequestBodyException {
@@ -44,7 +47,7 @@ public class AuthorService {
         }
     }
 
-    public Author getAuthorById(Integer id) throws IdAuthorNotFoundException {
-        return authorRepo.findById(id).orElseThrow(IdAuthorNotFoundException::new);
+    public Author getAuthorById(Integer id) throws AuthorNotFoundException {
+        return authorRepo.findById(id).orElseThrow(AuthorNotFoundException::new);
     }
 }

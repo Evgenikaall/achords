@@ -23,6 +23,6 @@ public class StrummingPattern {
 
     private String strummingPatternImgPath;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Song> songStrummingPatterns;
 }

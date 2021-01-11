@@ -1,5 +1,6 @@
 package com.achords.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +30,7 @@ public class Song implements Serializable {
     private Date postDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "difficult_level_difficult_id")
+    @JoinColumn(name = "difficult_level_difficult_id", nullable = false)
     private DifficultLevel difficultLevel;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -43,18 +44,18 @@ public class Song implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "section_type_section_type_id")
     private SectionType sectionType;
-//
-//    @ManyToMany(mappedBy = "songChords")
-//    private List<Chords> chordsList;
-//
-//    @ManyToMany(mappedBy = "songGenres")
-//    private List<Genre> genreList;
-//
-//    @ManyToMany(mappedBy = "songLanguages")
-//    private List<Language> languagesList;
-//
-//    @ManyToMany(mappedBy = "songStrummingPatterns")
-//    private List<StrummingPattern> strummingPatternList;
+
+    @ManyToMany(mappedBy = "songChords", cascade = CascadeType.MERGE)
+    private List<Chords> chordsList;
+
+    @ManyToMany(mappedBy = "songGenres", cascade = CascadeType.MERGE)
+    private List<Genre> genreList;
+
+    @ManyToMany(mappedBy = "songLanguages", cascade = CascadeType.MERGE)
+    private List<Language> languagesList;
+
+    @ManyToMany(mappedBy = "songStrummingPatterns", cascade = CascadeType.MERGE)
+    private List<StrummingPattern> strummingPatternList;
 
     @Lob
     @Type(type = "text")

@@ -3,6 +3,7 @@ package com.achords.service;
 import com.achords.model.Language;
 import com.achords.repository.LanguageRepo;
 import com.achords.utils.exceptions.EmptyRequestBodyException;
+import com.achords.utils.exceptions.LanguageNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,10 @@ public class LanguageService {
         }else{
             return languageRepo.save(newLanguage);
         }
+    }
+
+    public Language findById(Integer id) throws LanguageNotFoundException {
+        return languageRepo.findById(id).orElseThrow(LanguageNotFoundException::new);
     }
 
 }
