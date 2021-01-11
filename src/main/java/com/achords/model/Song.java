@@ -1,6 +1,7 @@
 package com.achords.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
@@ -16,6 +17,7 @@ import java.util.*;
 @Table(name = "song")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Song implements Serializable {
 
     @Id
@@ -26,39 +28,36 @@ public class Song implements Serializable {
 
     private Date postDate;
 
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(updatable = false, insertable = false)
+    @JoinColumn(name = "difficult_level_difficult_id")
     private DifficultLevel difficultLevel;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(updatable = false, insertable = false)
+    @JoinColumn(name = "song_tuning_tuning")
     private Tuning songTuning;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(name = "author_id")
     private Author author;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(name = "section_type_section_type_id")
     private SectionType sectionType;
-
-    @ManyToMany(mappedBy = "songChords")
-    private List<Chords> chordsList;
-
-    @ManyToMany(mappedBy = "songGenres")
-    private List<Genre> genreList;
-
-    @ManyToMany(mappedBy = "songLanguages")
-    private List<Language> languagesList;
-
-    @ManyToMany(mappedBy = "songStrummingPatterns")
-    private List<StrummingPattern> strummingPatternList;
+//
+//    @ManyToMany(mappedBy = "songChords")
+//    private List<Chords> chordsList;
+//
+//    @ManyToMany(mappedBy = "songGenres")
+//    private List<Genre> genreList;
+//
+//    @ManyToMany(mappedBy = "songLanguages")
+//    private List<Language> languagesList;
+//
+//    @ManyToMany(mappedBy = "songStrummingPatterns")
+//    private List<StrummingPattern> strummingPatternList;
 
     @Lob
     @Type(type = "text")
     private String songLyrics;
 
-    //text song
-    // difficult get by id
 }

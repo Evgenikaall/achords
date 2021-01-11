@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +25,7 @@
     let genres_counter = 1;
     let languages_counter = 1;
     let strumming_counter = 1;
-    var result;
+    let result;
 </script>
 
 
@@ -37,11 +37,10 @@
                 select = document.getElementById("select_authors");
                 if (authorsList !== undefined) {
                     for (let author of authorsList) {
-                        author = author["authorsName"].toString();
                         option = document.createElement("option");
-                        option.setAttribute("value", author.toString());
+                        option.setAttribute("data-value", author["id"]);
                         option.setAttribute("class", "option-selector-customer");
-                        option.innerHTML = author.toString();
+                        option.innerHTML = author["authorsName"].toString();
                         select.appendChild(option);
                     }
                 }
@@ -51,11 +50,10 @@
             select = document.getElementById("select_difficult");
             if (difficult_level_list !== undefined) {
                 for (let difficult_level of difficult_level_list) {
-                    difficult_level = difficult_level["difficultName"].toString();
                     option = document.createElement("option");
-                    option.setAttribute("value", difficult_level.toString());
+                    option.setAttribute("value", difficult_level["difficultId"]);
                     option.setAttribute("class", "option-selector-customer");
-                    option.innerHTML = difficult_level.toString();
+                    option.innerHTML = difficult_level["difficultName"].toString();
                     select.appendChild(option);
                 }
             }
@@ -65,11 +63,10 @@
             if (patterns !== undefined) {
                 genres_counter = 1;
                 for (let pattern of patterns) {
-                    pattern = pattern["strummingPatternName"];
                     option = document.createElement("option");
                     option.setAttribute("class", "option-selector-customer");
-                    option.setAttribute("value", pattern.toString());
-                    option.innerHTML = pattern.toString();
+                    option.setAttribute("value", pattern["strummingPatternId"]);
+                    option.innerHTML = pattern["strummingPatternName"].toString();
                     select.appendChild(option);
                 }
             }
@@ -78,11 +75,10 @@
             select = document.getElementById("select_section_type");
             if (section_types_list !== undefined) {
                 for (let section_type of section_types_list) {
-                    section_type = section_type["sectionTypeName"].toString();
                     option = document.createElement("option");
-                    option.setAttribute("value", section_type.toString());
+                    option.setAttribute("value", section_type["sectionTypeId"]);
                     option.setAttribute("class", "option-selector-customer");
-                    option.innerHTML = section_type.toString();
+                    option.innerHTML = section_type["sectionTypeName"].toString();
                     select.appendChild(option);
                 }
             }
@@ -91,11 +87,10 @@
             select = document.getElementById("select_tuning");
             if (tunings !== undefined) {
                 for (let tuning of tunings) {
-                    tuning = tuning["tuning"].toString();
                     option = document.createElement("option");
-                    option.setAttribute("value", tuning.toString());
+                    option.setAttribute("value", tuning["tuning"]);
                     option.setAttribute("class", "option-selector-customer");
-                    option.innerHTML = tuning.toString();
+                    option.innerHTML = tuning["tuning"].toString();
                     select.appendChild(option);
                 }
             }
@@ -105,11 +100,10 @@
             if (languages_list !== undefined) {
                 languages_counter = 1;
                 for (let language of languages_list) {
-                    language = language["languageName"].toString();
                     option = document.createElement("option");
-                    option.setAttribute("value", language.toString());
+                    option.setAttribute("value", language["languageId"]);
                     option.setAttribute("class", "option-selector-customer");
-                    option.innerHTML = language.toString();
+                    option.innerHTML = language["languageName"].toString();
                     select.appendChild(option);
                 }
             }
@@ -119,11 +113,10 @@
             if (genres !== undefined) {
                 genres_counter = 1;
                 for (let genre of genres) {
-                    genre = genre["nameGenre"].toString();
                     option = document.createElement("option");
-                    option.setAttribute("value", genre.toString());
+                    option.setAttribute("value", genre["genreId"]);
                     option.setAttribute("class", "option-selector-customer");
-                    option.innerHTML = genre.toString();
+                    option.innerHTML = genre["nameGenre"].toString();
                     select.appendChild(option);
                 }
             }
@@ -179,15 +172,12 @@
 
     function addStrummingSelection() {
         $.get("api/strumming_pattern", function (patterns) {
-
             let section = document.getElementById("strumming_pattern_block");
             if (section.childElementCount - 1 < patterns.length) {
-
                 let selection = document.createElement("select");
                 selection.setAttribute("class", "input-form-customer input-text-customer " +
                     "select-form-customer input-text-customer w-75 multi");
                 selection.setAttribute("onchange", "validateForm()");
-
                 selection.setAttribute("id", "strumming-pattern-selector-info".concat(strumming_counter.toString()));
 
                 strumming_counter++;
@@ -200,25 +190,20 @@
                 option.innerHTML = "Choose song's strumming patterns";
                 selection.appendChild(option)
 
-                if (patterns !== undefined) {
-                    for (let pattern of patterns) {
-                        pattern = pattern["strummingPatternName"];
+                for (let pattern of patterns) {
+                    if (pattern !== undefined) {
                         option = document.createElement("option");
                         option.setAttribute("class", "option-selector-customer");
-                        option.setAttribute("value", pattern.toString());
-                        option.innerHTML = pattern.toString();
+                        option.setAttribute("value", pattern["strummingPatternId"]);
+                        option.innerHTML = pattern["strummingPatternName"].toString();
                         selection.appendChild(option);
                     }
-
                 }
                 section.appendChild(selection);
                 validateForm();
             } else {
-
                 customAlert.customAlertShow("Are selected more patterns than allowed", "Warning !");
             }
-
-
         })
     }
 
@@ -242,17 +227,15 @@
                 option.innerHTML = "Choose song's language";
                 selection.appendChild(option)
 
-                if (languages !== undefined) {
-                    for (let language of languages) {
-                        language = language["languageName"];
+                for (let language of languages) {
+                    if (language !== undefined) {
                         option = document.createElement("option");
                         option.setAttribute("class", "option-selector-customer");
-                        option.setAttribute("value", language.toString());
-                        option.innerHTML = language.toString();
+                        option.setAttribute("value", language["languageId"]);
+                        option.innerHTML = language["languageName"].toString();
                         selection.appendChild(option);
                     }
                 }
-
                 section.appendChild(selection);
                 validateForm();
             } else {
@@ -281,13 +264,12 @@
 
                 genres_counter++;
 
-                if (genres !== undefined) {
-                    for (let genre of genres) {
-                        genre = genre["nameGenre"];
+                for (let genre of genres) {
+                    if (genre !== undefined) {
                         option = document.createElement("option");
                         option.setAttribute("class", "option-selector-customer");
-                        option.setAttribute("value", genre.toString());
-                        option.innerHTML = genre.toString();
+                        option.setAttribute("value", genre["genreId"]);
+                        option.innerHTML = genre["nameGenre"].toString();
                         selection.appendChild(option);
                     }
                 }
@@ -302,14 +284,16 @@
 </script>
 
 <script>
-    class Song{
+    class Song {
         constructor() {
         }
-        setValues(song, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics){
-            this.song = song;
+
+        setValues(songName, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics) {
+            this.songName = songName;
             this.author = author;
             this.genres = genres;
             this.difficult = difficult;
+            this.tuning = tuning;
             this.strummingPatterns = strummingPatterns;
             this.sectionType = sectionType;
             this.languages = languages;
@@ -320,19 +304,34 @@
 
 <script>
 
-    function getAnswer(song, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics) {
+    function getAnswer(songName, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics) {
         let statement = true;
+        let temp;
 
-        if (song.length === 0) {
+        if (tuning.length === 0) {
             statement = false;
         }
+        if (songName.length === 0) {
+            statement = false;
+        }
+
 
         if (author.length === 0) {
-            statement = false;
+            statement = false
+        } else {
+            temp = true;
+            for (let element of $("#select_authors").children(".option-selector-customer")) {
+                if (element.innerHTML === author["authorsName"]) {
+                    temp = false;
+                    break;
+                }
+            }
+            if (temp) statement = false;
         }
 
+
         for (let genre of genres) {
-            if (genre == null) {
+            if (genre["genreId"] == null) {
                 statement = false;
                 break;
             }
@@ -343,7 +342,7 @@
         }
 
         for (let pattern of strummingPatterns) {
-            if (pattern == null) {
+            if (pattern["strummingPatternId"] == null) {
                 statement = false;
                 break;
             }
@@ -354,7 +353,7 @@
         }
 
         for (let language of languages) {
-            if (language == null) {
+            if (language["languageId"] == null) {
                 statement = false;
                 break;
             }
@@ -370,55 +369,122 @@
 
 
     function validateForm() {
+
+        let temp = false;
         result = new Song();
-        var song = $("#song_name").val();
-        var author = $("#author").val();
-        var genres = [];
+        let songName = $("#song_name").val();
+
+        let author = $("#author").val().trim();
+        if (author.length !== 0) {
+            for (let element of $("#select_authors").children(".option-selector-customer")) {
+                if (element.innerHTML === author) {
+                    author = JSON.stringify({
+                        id: element.getAttribute("data-value"),
+                        authorsName: author.toString()
+                    });
+                    author = JSON.parse(author);
+                    break;
+                }
+            }
+        }
+
+
+        let tuning = ($("#select_tuning").val() != null) ? $("#select_tuning").val() : "";
+
+        if (tuning !== "") {
+            tuning = JSON.stringify({
+                tuning: tuning
+            })
+            tuning = JSON.parse(tuning);
+        }
+
+        let genres = [];
 
         for (let i = 0; i < genres_counter; i++) {
-            genres.push($("#genres-selector-info".concat(i.toString())).val());
+            let genresRow = $("#genres-selector-info".concat(i.toString()))
+            let genre = JSON.stringify({
+                genreId: genresRow.val(),
+                nameGenre: genresRow.children("option:selected").text().toString()
+            });
+            genre = JSON.parse(genre);
+            temp = true;
+            for (let el of genres) {
+                if (el["genreId"] === genre["genreId"]) {
+                    temp = false;
+                    break;
+                }
+            }
+            if (temp)
+                genres.push(genre);
         }
 
-        var difficult = ($("#select_difficult").val() != null) ? $("#select_difficult").val() : "";
+        let difficult = ($("#select_difficult").val() != null) ? $("#select_difficult").val() : "";
 
-        var strummingPatterns = [];
+        if (difficult !== "") {
+            difficult = JSON.stringify({
+                difficultId: difficult,
+                difficultName: $("#select_difficult").children("option:selected").text().toString(),
+            });
+            difficult = JSON.parse(difficult);
+        }
+
+        let strummingPatterns = [];
 
         for (let i = 0; i < strumming_counter; i++) {
-            strummingPatterns.push($("#strumming-pattern-selector-info".concat(i.toString())).val());
+            let strummingPatternRow = $("#strumming-pattern-selector-info".concat(i.toString()));
+            let strummingPattern = JSON.stringify({
+                strummingPatternId: strummingPatternRow.val(),
+                strummingPatternName: strummingPatternRow.children("option:selected").text().toString()
+            });
+            strummingPattern = JSON.parse(strummingPattern);
+            temp = true;
+            for (let el of strummingPatterns) {
+                if (el["strummingPatternId"] === strummingPattern["strummingPatternId"]) {
+                    temp = false;
+                    break;
+                }
+            }
+            if (temp)
+                strummingPatterns.push(strummingPattern);
         }
 
-        var sectionType = ($("#select_section_type").val() != null) ? $("#select_section_type").val() : "";
 
-        var languages = [];
+        let sectionType = ($("#select_section_type").val() != null) ? $("#select_section_type").val() : "";
+
+        if (sectionType !== "") {
+            sectionType = JSON.stringify({
+                sectionTypeId: $("#select_section_type").val(),
+                sectionTypeName: $("#select_section_type").children("option:selected").text().toString()
+            });
+            sectionType = JSON.parse(sectionType);
+        }
+
+        let languages = [];
         for (let i = 0; i < languages_counter; i++) {
-            languages.push($("#language-selector-info".concat(i.toString())).val())
+            let languageRow = $("#language-selector-info".concat(i.toString()));
+            let language = JSON.stringify({
+                languageId: languageRow.val(),
+                languageName: languageRow.children("option:selected").text().toString()
+            });
+            language = JSON.parse(language);
+            temp = true;
+            for (let el of languages) {
+                if (el["languageId"] === language["languageId"]) {
+                    temp = false;
+                    break;
+                }
+            }
+            if (temp)
+                languages.push(language);
         }
 
-        var lyrics = $("#song_text").val();
+        let lyrics = $("#song_text").val();
 
 
-        // console.log(song.length + ' - length - ');
-        // console.log(song);
-        // console.log(author.length + ' : length - ');
-        // console.log(author);
-        // console.log(genres.length + ': length - ');
-        // console.log(genres);
-        // console.log(difficult.length + ': length - ');
-        // console.log(difficult);
-        // console.log(strummingPatterns.length + ': length - ');
-        // console.log(strummingPatterns);
-        // console.log(sectionType.length + ': length - ');
-        // console.log(sectionType);
-        // console.log(languages.length + ': length - ');
-        // console.log(languages);
-        // console.log(lyrics.length + ': length - ');
-        // console.log(lyrics);
-        // console.log("--------")
-
-        let answer = getAnswer(song, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics);
+        let answer = getAnswer(songName, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics);
 
         if (answer) {
-            result.setValues(song, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics);
+            result.setValues(songName, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics);
             $("#bottom_button_block").slideDown("slow");
             console.log(result);
         } else {
@@ -431,21 +497,24 @@
 <script>
     function sendSong() {
         $.ajax({
-            url:'/api/songs',
+            url: '/api/songs',
             dataType: 'json',
             type: 'POST',
             cache: false,
             contentType: 'application/json',
             data: JSON.stringify({
-                songName: result.song.toString(),
+                songName: result.songName.toString(),
                 postDate: null,
-                tuning: null,
-                difficultLevel: 1,
-                author: result.author.toString(),
+                difficultLevel: result.difficult,
+                songTuning: result.tuning,
+                author: result.author,
                 chordsList: null,
-                genresList: result.genres,
+                sectionType: result.sectionType,
+                genreList: result.genres,
                 languagesList: result.languages,
-                strummingPatternList: result.strummingPatterns
+                strummingPatternList: result.strummingPatterns,
+                songLyrics: result.lyrics.toString(),
+                success: location.href = "/"
             })
         })
     }
@@ -528,7 +597,9 @@
                                 tuning</label>
                             <select id="select_tuning" onchange="validateForm()"
                                     class="input-form-customer input-text-customer select-form-customer input-text-customer w-75">
-                                <option disabled selected hidden class="option-selector-customer multi">Choose song's tuning</option>
+                                <option disabled selected hidden class="option-selector-customer multi">Choose song's
+                                    tuning
+                                </option>
                             </select>
                         </div>
                         <div class="form-group-customer" id="language_block">

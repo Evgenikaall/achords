@@ -19,7 +19,4 @@ public class Tuning{
 
     @Id
     private String tuning;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "songTuning")
-    private List<Song> songList;
 }

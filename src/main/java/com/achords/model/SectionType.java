@@ -21,6 +21,6 @@ public class SectionType {
 
     private String sectionTypeName;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sectionType")
-    private List<Song> songListOrderBySectionType;
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sectionType")
+//    private List<Song> songListOrderBySectionType;
 }

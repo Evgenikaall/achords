@@ -1,14 +1,21 @@
 package com.achords.controller.unvisible.api;
 
+import com.achords.model.DifficultLevel;
 import com.achords.model.Song;
 import com.achords.service.SongService;
 import com.achords.utils.exceptions.EmptyRequestBodyException;
 import com.achords.utils.exceptions.IdSongNotFoundException;
 import com.achords.utils.exceptions.SongNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.Time;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -45,8 +52,17 @@ public class RestSongsController {
     }
 
     @PostMapping
-    public ResponseEntity<Song> saveNewSong(@RequestBody Song song){
-        System.out.println(song);
+    public ResponseEntity<Song> saveNewSong(@RequestBody Song songRequest){
+        System.out.println(songRequest);
+        Song song = Song.builder()
+                .songLyrics(songRequest.getSongLyrics())
+                .songName(songRequest.getSongName())
+                .author(songRequest.getAuthor())
+                .postDate(new Timestamp(System.currentTimeMillis()))
+                .difficultLevel(songRequest.getDifficultLevel())
+                .songTuning(songRequest.getSongTuning())
+                .sectionType(songRequest.getSectionType())
+                .build();
         try{
             return ResponseEntity.status(HttpStatus.CREATED).body(songService.save(song));
         }catch (EmptyRequestBodyException e){
