@@ -7,7 +7,10 @@ import com.achords.utils.exceptions.GenreNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -15,8 +18,8 @@ public class GenresService {
 
     private final GenresRepo genresRepo;
 
-    public List<Genre> getAll(){
-        return genresRepo.findAll();
+    public Set<Genre> getAll(){
+        return new HashSet<>(genresRepo.findAll());
     }
 
     public Genre save(Genre genre) throws EmptyRequestBodyException {

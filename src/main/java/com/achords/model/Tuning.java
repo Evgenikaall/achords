@@ -1,8 +1,6 @@
 package com.achords.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
@@ -12,14 +10,17 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "instrument_tuning")
+@Table(name = "tuning_instrument")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Tuning{
 
     @Id
+    @Column(name = "tuning")
     private String tuning;
 
-    @OneToMany
-    private List<Song> songList;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "songTuning", cascade = CascadeType.ALL)
+    private List<Song> songListByTuning = new ArrayList<>();
 }

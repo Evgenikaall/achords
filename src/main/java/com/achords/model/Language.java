@@ -1,26 +1,30 @@
 package com.achords.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.EAGER;
+
 @Entity
 @Data
-@Table(name = "language")
+@Table(name = "languages")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Language {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "language_id")
     private Integer languageId;
 
+    @Column(name = "language_name")
     private String languageName;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Song> songLanguages;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(mappedBy = "languagesSet", fetch = EAGER)
+    private List<Song> songListByLanguages = new ArrayList<>();
 }

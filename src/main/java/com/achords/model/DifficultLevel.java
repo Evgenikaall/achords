@@ -1,15 +1,13 @@
 package com.achords.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
+
+
 
 @Entity
 @Data
@@ -17,14 +15,18 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DifficultLevel implements Serializable {
+public class DifficultLevel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer difficultId;
+    @Column(name = "difficult_level_id")
+    private Integer difficultLevelId;
 
-    private String difficultName;
+    @Column(name = "difficult_level_name")
+    private String difficultLevelName;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "difficultLevel")
-    private List<Song> songList;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "difficultLevel", cascade = CascadeType.ALL)
+    private List<Song> songListByDifficultLevel = new ArrayList<>();
 }

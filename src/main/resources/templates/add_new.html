@@ -37,7 +37,7 @@
                 select = document.getElementById("select_authors");
                 if (authorsList !== undefined) {
                     for (let author of authorsList) {
-                        author = author["authorsName"].toString();
+                        author = author["authorName"].toString();
                         option = document.createElement("option");
                         option.setAttribute("value", author.toString());
                         option.setAttribute("class", "option-selector-customer");
@@ -51,7 +51,7 @@
             select = document.getElementById("select_difficult");
             if (difficult_level_list !== undefined) {
                 for (let difficult_level of difficult_level_list) {
-                    difficult_level = difficult_level["difficultName"].toString();
+                    difficult_level = difficult_level["difficultLevelName"].toString();
                     option = document.createElement("option");
                     option.setAttribute("value", difficult_level.toString());
                     option.setAttribute("class", "option-selector-customer");
@@ -91,7 +91,6 @@
             select = document.getElementById("select_tuning");
             if (tunings !== undefined) {
                 for (let tuning of tunings) {
-                    // tuning = tuning["tuning"].toString();
                     option = document.createElement("option");
                     option.setAttribute("value", JSON.stringify(tuning));
                     option.setAttribute("class", "option-selector-customer");
@@ -119,7 +118,7 @@
             if (genres !== undefined) {
                 genres_counter = 1;
                 for (let genre of genres) {
-                    genre = genre["nameGenre"].toString();
+                    genre = genre["genreName"].toString();
                     option = document.createElement("option");
                     option.setAttribute("value", genre.toString());
                     option.setAttribute("class", "option-selector-customer");
@@ -283,7 +282,7 @@
 
                 if (genres !== undefined) {
                     for (let genre of genres) {
-                        genre = genre["nameGenre"];
+                        genre = genre["genreName"];
                         option = document.createElement("option");
                         option.setAttribute("class", "option-selector-customer");
                         option.setAttribute("value", genre.toString());
@@ -377,7 +376,9 @@
     function validateForm() {
         result = new Song();
         let song = $("#song_name").val();
+
         let author = $("#author").val();
+
         let tuning = ($("#select_tuning").val() != null) ? $("#select_tuning").val() : "";
 
         let genres = [];
@@ -437,6 +438,57 @@
 
 <script>
     function sendSong() {
+        let post_tuning = JSON.parse(JSON.stringify({
+            tuning: result.tuning["tuning"]
+        }));
+
+        let post_difficult_level = JSON.parse(JSON.stringify({
+            difficultLevelId: result.difficult["difficultLevelId"],
+            difficultLevelName : result.difficult["difficultLevelName"]
+
+        }));
+
+        let post_author = JSON.parse(JSON.stringify({
+            authorId : result.author["authorId"],
+            authorName : result.author["authorName"],
+            authorImgPath : result.author["authorImgPath"]
+        }));
+
+        let post_section_type = JSON.parse(JSON.stringify({
+            sectionTypeId : result.sectionType["sectionTypeId"],
+            sectionTypeName : result.sectionType["sectionTypeName"]
+        }));
+
+        let post_genres = new Set();
+        console.log(result.genres);
+        for(let genre of result.genres){
+            console.log(JSON.parse(JSON.stringify({
+                genreId : genre["genreId"],
+                genreName : genre["genreName"]
+            })));
+            post_genres.add(JSON.parse(JSON.stringify({
+                genreId : genre["genreId"],
+                genreName : genre["genreName"]
+            })));
+        }
+
+        let post_languages = new Set();
+        for (let language of result.languages){
+            post_languages.add(JSON.parse(JSON.stringify({
+                languageId : language["languageId"],
+                languageName : language["languageName"]
+            })));
+        }
+
+        let post_strumming_patterns = new Set();
+        for (let strumming_pattern of result.strummingPatterns){
+            post_strumming_patterns.add(JSON.parse(JSON.stringify({
+                strummingPatternId : strumming_pattern["strummingPatternId"],
+                strummingPatternName : strumming_pattern["strummingPatternName"],
+                strummingPatternImgPath : strumming_pattern["strummingPatternImgPath"]
+            })))
+        }
+
         $.ajax({
             url: '/api/songs',
             dataType: 'json',
@@ -446,15 +498,20 @@
             data: JSON.stringify({
                 songName: result.song.toString(),
                 postDate: null,
-                tuning: result.tuning.toString(),
-                difficultLevel: result.difficult.toString(),
-                author: result.author.toString(),
-                chordsList: null,
-                genresList: null,
-                languagesList: null,
-                strummingPatternList: null
+                difficultLevel: post_difficult_level,
+                songTuning: post_tuning,
+                author: post_author,
+                sectionType : post_section_type,
+                chordsSet: null,
+                genreSet: post_genres,
+                languagesSet: post_languages,
+                strummingPatternSet: post_strumming_patterns,
+                songLyrics : result.lyrics.toString()
             })
         })
+
+        // переделать
+        // result.genres include just genre name
     }
 </script>
 <body class="page">

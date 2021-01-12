@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,8 +17,8 @@ public class RestGenresController {
     private final GenresService genresService;
 
     @GetMapping
-    public ResponseEntity<List<Genre>> getAll(){
-        List<Genre> genresList = genresService.getAll();
+    public ResponseEntity<Set<Genre>> getAll(){
+        Set<Genre> genresList = genresService.getAll();
         if(genresList.isEmpty())
             return ResponseEntity.noContent().build();
         else

@@ -1,8 +1,6 @@
 package com.achords.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,10 +15,14 @@ public class SectionType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "section_type_id")
     private Integer sectionTypeId;
 
+    @Column(name = "section_type_name")
     private String sectionTypeName;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sectionType")
-    private List<Song> songList;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "sectionType", cascade = CascadeType.ALL)
+    private List<Song> songListBySectionType = new ArrayList<>();
 }

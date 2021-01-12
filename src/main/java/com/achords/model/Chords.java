@@ -1,16 +1,18 @@
 package com.achords.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Data
-@Table(name = "chords")
+@Table(name = "chord")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Chords {
@@ -19,9 +21,12 @@ public class Chords {
     @Column(name = "chord_name")
     private String chordName;
 
+    @Column(name = "chord_img_path")
     private String chordImgPath;
 
-    @ManyToMany
-    private List<Song> songChords = new ArrayList<>();
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(mappedBy = "chordsSet", fetch = EAGER)
+    private Set<Song> songSetByChords = new HashSet<>();
 
 }

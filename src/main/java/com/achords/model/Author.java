@@ -1,10 +1,9 @@
 package com.achords.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +16,18 @@ public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "author_id")
+    private Integer authorId;
 
-    private String authorsName;
+    @Column(name = "author_name")
+    private String authorName;
 
+    @Column(name = "author_img_path")
     private String authorImgPath;
 
-    @OneToMany
-    private List<Song> songList;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private List<Song> songListByAuthor = new ArrayList<>();
 
 }

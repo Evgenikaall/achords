@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -60,49 +58,49 @@ public class RestSongsController {
         DifficultLevel difficultLevel;
         Author author;
         Tuning tuning;
-        List<Chords> chordsList = new ArrayList<>();
-        List<Genre> genreList = new ArrayList<>();
-        List<Language> languageList = new ArrayList<>();
-        List<StrummingPattern> strummingPatternList = new ArrayList<>();
+        Set<Chords> chordsSet = new HashSet<>();
+        Set<Genre> genreSet = new HashSet<>();
+        Set<Language> languageSet = new HashSet<>();
+        Set<StrummingPattern> strummingPatternSet = new HashSet<>();
 
         try{
-            difficultLevel = difficultLevelService.findById(songRequest.getDifficultLevel().getDifficultId());
-            difficultLevel.getSongList().add(songRequest);
+            difficultLevel = difficultLevelService.findById(songRequest.getDifficultLevel().getDifficultLevelId());
+            difficultLevel.getSongListByDifficultLevel().add(songRequest);
         } catch (DifficultLevelNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
 
         try {
-            author = authorService.getAuthorById(songRequest.getAuthor().getId());
-            author.getSongList().add(songRequest);
+            author = authorService.getAuthorById(songRequest.getAuthor().getAuthorId());
+            author.getSongListByAuthor().add(songRequest);
         } catch (AuthorNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
 
         try {
-            for (Genre genre : songRequest.getGenreList()){
+            for (Genre genre : songRequest.getGenreSet()){
                 Genre tempGenre = genresService.findById(genre.getGenreId());
-                genreList.add(tempGenre);
-                tempGenre.getSongGenres().add(songRequest);
+                genreSet.add(tempGenre);
+                tempGenre.getSongListByGenres().add(songRequest);
             }
         } catch (GenreNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
 
         try{
-            for(Language language : songRequest.getLanguagesList()){
+            for(Language language : songRequest.getLanguagesSet()){
                 Language tempLanguage = languageService.findById(language.getLanguageId());
-                languageList.add(tempLanguage);
-                tempLanguage.getSongLanguages().add(songRequest);
+                languageSet.add(tempLanguage);
+                tempLanguage.getSongListByLanguages().add(songRequest);
             }
         } catch (LanguageNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
 
         try{
-            for(StrummingPattern strummingPattern : songRequest.getStrummingPatternList()){
+            for(StrummingPattern strummingPattern : songRequest.getStrummingPatternSet()){
                 StrummingPattern tempStrummingPattern = strummingPatternService.findById(strummingPattern.getStrummingPatternId());
-                strummingPatternList.add(tempStrummingPattern);
+                strummingPatternSet.add(tempStrummingPattern);
                 tempStrummingPattern.getSongStrummingPatterns().add(songRequest);
             }
         } catch (StrummingPatterNotFoundException e) {
@@ -111,14 +109,14 @@ public class RestSongsController {
 
         try{
             tuning = tuningService.findById(songRequest.getSongTuning().getTuning());
-            tuning.getSongList().add(songRequest);
+            tuning.getSongListByTuning().add(songRequest);
         } catch (TuningNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
 
         try{
-            chordsList.add(chordsService.findById("Am"));
-            chordsService.findById("Am").getSongChords().add(songRequest);
+            chordsSet.add(chordsService.findById("Am"));
+            chordsService.findById("Am").getSongSetByChords().add(songRequest);
 //            for (Chords chord : songRequest.getChordsList()){
 //                Chords tempChord = chordsService.findById(chord.getChordName());
 //                chordsList.add(tempChord);
@@ -137,10 +135,10 @@ public class RestSongsController {
                 .author(author)
                 .sectionType(songRequest.getSectionType())
                 .songLyrics(songRequest.getSongLyrics())
-                .chordsList(chordsList)
-                .genreList(genreList)
-                .languagesList(languageList)
-                .strummingPatternList(strummingPatternList)
+                .chordsSet(chordsSet)
+                .genreSet(genreSet)
+                .languagesSet(languageSet)
+                .strummingPatternSet(strummingPatternSet)
                 .build();
 
         System.out.println(song);
