@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/tuning")
@@ -19,8 +20,8 @@ public class RestTuningController {
     private final TuningService tuningService;
 
     @GetMapping
-    public ResponseEntity<List<Tuning>> getAll(){
-        List<Tuning> tuningList = tuningService.getAll();
+    public ResponseEntity<Set<Tuning>> getAll(){
+        Set<Tuning> tuningList = tuningService.getAll();
         if(tuningList.isEmpty())
             return ResponseEntity.noContent().build();
         else

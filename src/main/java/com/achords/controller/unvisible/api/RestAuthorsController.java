@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/authors")
@@ -18,8 +19,8 @@ public class RestAuthorsController {
     private final AuthorService authorService;
 
     @GetMapping
-    public ResponseEntity<List<Author>> getAll() {
-        List<Author> authorList = authorService.getAll();
+    public ResponseEntity<Set<Author>> getAll() {
+        Set<Author> authorList = authorService.getAll();
         if (authorList.isEmpty()) {
             return ResponseEntity.noContent().build();
         }else{

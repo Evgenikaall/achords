@@ -25,6 +25,7 @@ public class RestSongsController {
     private final StrummingPatternService strummingPatternService;
     private final TuningService tuningService;
     private final ChordsService chordsService;
+    private final SectionTypeService sectionTypeService;
 
     @GetMapping
     public ResponseEntity<List<Song>> getAll() {
@@ -58,10 +59,13 @@ public class RestSongsController {
         DifficultLevel difficultLevel;
         Author author;
         Tuning tuning;
+        SectionType sectionType;
         Set<Chords> chordsSet = new HashSet<>();
         Set<Genre> genreSet = new HashSet<>();
         Set<Language> languageSet = new HashSet<>();
         Set<StrummingPattern> strummingPatternSet = new HashSet<>();
+
+        System.out.println(songRequest);
 
         try{
             difficultLevel = difficultLevelService.findById(songRequest.getDifficultLevel().getDifficultLevelId());
@@ -111,6 +115,13 @@ public class RestSongsController {
             tuning = tuningService.findById(songRequest.getSongTuning().getTuning());
             tuning.getSongListByTuning().add(songRequest);
         } catch (TuningNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+
+        try {
+            sectionType = sectionTypeService.findById(songRequest.getSectionType().getSectionTypeId());
+            sectionType.getSongListBySectionType().add(songRequest);
+        } catch (SectionTypeNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
 

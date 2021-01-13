@@ -4,11 +4,11 @@ import com.achords.model.StrummingPattern;
 import com.achords.repository.StrummingPatternRepo;
 import com.achords.utils.exceptions.EmptyRequestBodyException;
 import com.achords.utils.exceptions.StrummingPatterNotFoundException;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -23,9 +23,8 @@ public class StrummingPatternService {
             return strummingPatternRepo.save(strummingPattern);
     }
 
-    @JsonIgnore
-    public List<StrummingPattern> getAll(){
-        return strummingPatternRepo.findAll();
+    public Set<StrummingPattern> getAll(){
+        return new HashSet<>(strummingPatternRepo.findAll());
     }
 
     public void delete(StrummingPattern strummingPattern) throws StrummingPatterNotFoundException {

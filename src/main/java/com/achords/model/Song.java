@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.*;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.FetchType.EAGER;
 
 @Entity
@@ -57,7 +58,7 @@ public class Song {
     )
     private Set<Chords> chordsSet = new HashSet<>();
 
-    @ManyToMany(cascade = ALL, fetch = EAGER)
+    @ManyToMany(cascade = MERGE, fetch = EAGER)
     @JoinTable(
             name = "song_genre",
             joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "song_id"),
@@ -65,7 +66,7 @@ public class Song {
     )
     private Set<Genre> genreSet = new HashSet<>();
 
-    @ManyToMany(cascade = ALL, fetch = EAGER)
+    @ManyToMany(cascade = MERGE, fetch = EAGER)
     @JoinTable(
             name = "song_language",
             joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "song_id"),
@@ -73,7 +74,7 @@ public class Song {
     )
     private Set<Language> languagesSet = new HashSet<>();
 
-    @ManyToMany(cascade = ALL, fetch = EAGER)
+    @ManyToMany(cascade = MERGE, fetch = EAGER)
     @JoinTable(
             name = "song_strumming_pattern",
             joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "song_id"),

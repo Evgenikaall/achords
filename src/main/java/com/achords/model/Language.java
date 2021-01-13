@@ -25,6 +25,6 @@ public class Language {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToMany(mappedBy = "languagesSet", fetch = EAGER)
+    @ManyToMany(mappedBy = "languagesSet")
     private List<Song> songListByLanguages = new ArrayList<>();
 }

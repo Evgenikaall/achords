@@ -7,7 +7,9 @@ import com.achords.utils.exceptions.EmptyRequestBodyException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -15,12 +17,8 @@ public class ChordsService {
 
     private final ChordsRepo chordsRepo;
 
-    public List<Chords> getAll() throws EmptyRequestBodyException {
-        List<Chords> chordsList = chordsRepo.findAll();
-        if(chordsList.isEmpty())
-            throw new EmptyRequestBodyException();
-        else
-            return chordsList;
+    public Set<Chords> getAll() {
+        return new HashSet<>(chordsRepo.findAll());
     }
 
     public Chords findById(String chordName) throws ChordNotFoundException {

@@ -4,7 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -24,5 +26,5 @@ public class SectionType {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "sectionType", cascade = CascadeType.ALL)
-    private List<Song> songListBySectionType = new ArrayList<>();
+    private Set<Song> songListBySectionType = new HashSet<>();
 }

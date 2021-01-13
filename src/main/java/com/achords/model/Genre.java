@@ -5,7 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static javax.persistence.FetchType.EAGER;
 
@@ -26,6 +27,6 @@ public class Genre {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToMany(mappedBy = "genreSet", fetch = EAGER)
-    private List<Song> songListByGenres = new ArrayList<>();
+    @ManyToMany(mappedBy = "genreSet")
+    private Set<Song> songListByGenres = new HashSet<>();
 }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/strumming_pattern")
@@ -18,8 +19,8 @@ public class RestStrummingPatternController {
     private final StrummingPatternService strummingPatternService;
 
     @GetMapping
-    public ResponseEntity<List<StrummingPattern>> getAll(){
-        List<StrummingPattern> strummingPatternList = strummingPatternService.getAll();
+    public ResponseEntity<Set<StrummingPattern>> getAll(){
+        Set<StrummingPattern> strummingPatternList = strummingPatternService.getAll();
         if(strummingPatternList.isEmpty())
             return ResponseEntity.noContent().build();
         else

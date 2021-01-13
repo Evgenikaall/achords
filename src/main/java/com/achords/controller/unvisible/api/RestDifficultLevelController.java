@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,9 +18,9 @@ public class RestDifficultLevelController {
     private final DifficultLevelService difficultLevelService;
 
     @GetMapping
-    public ResponseEntity<List<DifficultLevel>> getAll(){
+    public ResponseEntity<Set<DifficultLevel>> getAll(){
 
-        List<DifficultLevel> difficultLevelList = difficultLevelService.getAll();
+        Set<DifficultLevel> difficultLevelList = difficultLevelService.getAll();
 
         if(difficultLevelList.isEmpty())
             return ResponseEntity.noContent().build();

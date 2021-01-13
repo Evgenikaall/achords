@@ -27,6 +27,6 @@ public class StrummingPattern {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToMany(mappedBy = "strummingPatternSet", fetch = EAGER)
+    @ManyToMany(mappedBy = "strummingPatternSet")
     private List<Song> songStrummingPatterns;
 }

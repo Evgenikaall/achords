@@ -7,7 +7,9 @@ import com.achords.utils.exceptions.LanguageNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -15,8 +17,8 @@ public class LanguageService {
 
     private final LanguageRepo languageRepo;
 
-    public List<Language> getAll(){
-        return languageRepo.findAll();
+    public Set<Language> getAll(){
+        return new HashSet<>(languageRepo.findAll());
     }
 
     public Language save(Language newLanguage) throws EmptyRequestBodyException {

@@ -26,7 +26,7 @@ public class Chords {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToMany(mappedBy = "chordsSet", fetch = EAGER)
+    @ManyToMany(mappedBy = "chordsSet")
     private Set<Song> songSetByChords = new HashSet<>();
 
 }

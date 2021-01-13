@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,8 +20,8 @@ public class RestSectionTypeController {
 
 
     @GetMapping
-    public ResponseEntity<List<SectionType>> getAll(){
-        List<SectionType> sectionTypeList = sectionTypeService.getAll();
+    public ResponseEntity<Set<SectionType>> getAll(){
+        Set<SectionType> sectionTypeList = sectionTypeService.getAll();
         if(sectionTypeList.isEmpty())
             return ResponseEntity.noContent().build();
         else
