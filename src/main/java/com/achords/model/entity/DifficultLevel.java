@@ -1,6 +1,8 @@
-package com.achords.model;
+package com.achords.model.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,13 +22,18 @@ public class DifficultLevel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "difficult_level_id")
-    private Integer difficultLevelId;
+    private Integer id;
 
     @Column(name = "difficult_level_name")
-    private String difficultLevelName;
+    private String name;
+
+    @Column(name = "difficult_level_img_path")
+    private String imgPath;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "difficultLevel", cascade = CascadeType.ALL)
-    private Set<Song> songListByDifficultLevel = new HashSet<>();
+    private Set<Song> songList = new HashSet<>();
+
+
 }

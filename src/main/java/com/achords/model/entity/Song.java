@@ -1,15 +1,14 @@
-package com.achords.model;
+package com.achords.model.entity;
 
 
 import lombok.*;
-import org.hibernate.annotations.Type;
 
 
 import javax.persistence.*;
 import java.util.*;
 
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.EAGER;
 
 @Entity
@@ -25,10 +24,10 @@ public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "song_id")
-    private Integer songId;
+    private Integer id;
 
     @Column(name = "song_name")
-    private String songName;
+    private String name;
 
     @Column(name = "song_post_date")
     private Date postDate;
@@ -39,8 +38,8 @@ public class Song {
     private DifficultLevel difficultLevel;
 
     @ManyToOne(fetch = EAGER)
-    @JoinColumn(name = "tuning")
-    private Tuning songTuning;
+    @JoinColumn(name = "tuning_id")
+    private Tuning tuning;
 
     @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "author_id")
@@ -50,15 +49,15 @@ public class Song {
     @JoinColumn(name = "section_type_id")
     private SectionType sectionType;
 
-    @ManyToMany(cascade = ALL, fetch = EAGER)
+    @ManyToMany(cascade = {MERGE, PERSIST}, fetch = EAGER)
     @JoinTable(
             name = "song_chords",
             joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "song_id"),
-            inverseJoinColumns = @JoinColumn(name = "chord_name", referencedColumnName = "chord_name")
+            inverseJoinColumns = @JoinColumn(name = "chord_id", referencedColumnName = "chord_id")
     )
     private Set<Chords> chordsSet = new HashSet<>();
 
-    @ManyToMany(cascade = MERGE, fetch = EAGER)
+    @ManyToMany(cascade = {MERGE, PERSIST}, fetch = EAGER)
     @JoinTable(
             name = "song_genre",
             joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "song_id"),
@@ -66,7 +65,7 @@ public class Song {
     )
     private Set<Genre> genreSet = new HashSet<>();
 
-    @ManyToMany(cascade = MERGE, fetch = EAGER)
+    @ManyToMany(cascade = {MERGE, PERSIST}, fetch = EAGER)
     @JoinTable(
             name = "song_language",
             joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "song_id"),
@@ -74,7 +73,7 @@ public class Song {
     )
     private Set<Language> languagesSet = new HashSet<>();
 
-    @ManyToMany(cascade = MERGE, fetch = EAGER)
+    @ManyToMany(cascade = {MERGE, PERSIST}, fetch = EAGER)
     @JoinTable(
             name = "song_strumming_pattern",
             joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "song_id"),
@@ -82,9 +81,8 @@ public class Song {
     )
     private Set<StrummingPattern> strummingPatternSet = new HashSet<>();
 
-    @Lob
-    @Type(type = "text")
     @Column(name = "song_lyrics")
-    private String songLyrics;
+    private String lyrics;
+
 
 }

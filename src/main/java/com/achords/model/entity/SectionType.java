@@ -1,11 +1,9 @@
-package com.achords.model;
+package com.achords.model.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -18,13 +16,16 @@ public class SectionType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "section_type_id")
-    private Integer sectionTypeId;
+    private Integer id;
 
     @Column(name = "section_type_name")
-    private String sectionTypeName;
+    private String name;
+
+    @Column(name = "section_type_img_path")
+    private String imgPath;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "sectionType", cascade = CascadeType.ALL)
-    private Set<Song> songListBySectionType = new HashSet<>();
+    private Set<Song> songList = new HashSet<>();
 }

@@ -1,11 +1,10 @@
-package com.achords.model;
+package com.achords.model.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
-
-import static javax.persistence.FetchType.EAGER;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -17,16 +16,16 @@ public class StrummingPattern {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "strumming_pattern_id")
-    private Integer strummingPatternId;
+    private Integer id;
 
     @Column(name = "strumming_pattern_name")
-    private String strummingPatternName;
+    private String name;
 
     @Column(name = "strumming_pattern_img_path")
-    private String strummingPatternImgPath;
+    private String imgPath;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "strummingPatternSet")
-    private List<Song> songStrummingPatterns;
+    private Set<Song> songList = new HashSet<>();
 }

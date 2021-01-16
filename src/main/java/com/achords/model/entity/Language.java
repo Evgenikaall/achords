@@ -1,12 +1,10 @@
-package com.achords.model;
+package com.achords.model.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Data
@@ -18,13 +16,16 @@ public class Language {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "language_id")
-    private Integer languageId;
+    private Integer id;
 
     @Column(name = "language_name")
-    private String languageName;
+    private String name;
+
+    @Column(name = "language_img_path")
+    private String imgPath;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "languagesSet")
-    private List<Song> songListByLanguages = new ArrayList<>();
+    private List<Song> songList = new ArrayList<>();
 }

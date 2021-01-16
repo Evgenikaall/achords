@@ -1,6 +1,7 @@
 package com.achords.controller.unvisible.api;
 
-import com.achords.model.SectionType;
+import com.achords.model.dto.SectionTypeDTO;
+import com.achords.model.entity.SectionType;
 import com.achords.service.SectionTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -18,14 +18,13 @@ public class RestSectionTypeController {
 
     private final SectionTypeService sectionTypeService;
 
-
     @GetMapping
-    public ResponseEntity<Set<SectionType>> getAll(){
-        Set<SectionType> sectionTypeList = sectionTypeService.getAll();
-        if(sectionTypeList.isEmpty())
-            return ResponseEntity.noContent().build();
-        else
-            return ResponseEntity.ok(sectionTypeList);
+    public ResponseEntity<Set<SectionTypeDTO>> getAll(){
+       try {
+           return ResponseEntity.ok(sectionTypeService.getAll());
+       }catch (Exception e){
+           return ResponseEntity.noContent().build();
+       }
     }
 
 

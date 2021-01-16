@@ -1,14 +1,13 @@
 package com.achords.controller.unvisible.api;
 
-import com.achords.model.Author;
+import com.achords.model.dto.AuthorDTO;
+import com.achords.model.entity.Author;
 import com.achords.service.AuthorService;
 import com.achords.utils.exceptions.AuthorNotFoundException;
-import com.achords.utils.exceptions.EmptyRequestBodyException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -19,20 +18,19 @@ public class RestAuthorsController {
     private final AuthorService authorService;
 
     @GetMapping
-    public ResponseEntity<Set<Author>> getAll() {
-        Set<Author> authorList = authorService.getAll();
-        if (authorList.isEmpty()) {
+    public ResponseEntity<Set<AuthorDTO>> getAll() {
+        try{
+            return ResponseEntity.ok(authorService.getAll());
+        }catch (Exception e){
             return ResponseEntity.noContent().build();
-        }else{
-            return ResponseEntity.ok(authorList);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Author> getAuthorById(@PathVariable Integer id){
+    public ResponseEntity<AuthorDTO> getAuthorById(@PathVariable Integer id){
         try{
-            return ResponseEntity.ok(authorService.getAuthorById(id));
-        } catch (AuthorNotFoundException e) {
+            return ResponseEntity.ok(authorService.findById(id));
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -41,27 +39,17 @@ public class RestAuthorsController {
     public ResponseEntity<Author> saveAuthor(@RequestBody Author author){
         try {
             return ResponseEntity.ok(authorService.save(author));
-        } catch (EmptyRequestBodyException e) {
+        } catch (Exception e) {
             return ResponseEntity.noContent().build();
         }
     }
-
-    @PutMapping
-    public ResponseEntity<Author> updateAuthor(@RequestBody Author updatedAuthor){
-        try{
-            return ResponseEntity.ok(authorService.save(updatedAuthor));
-        } catch (EmptyRequestBodyException e) {
-            return ResponseEntity.noContent().build();
-        }
-    }
-
 
     @DeleteMapping
-    public ResponseEntity deleteAuthor(@RequestBody Author author){
+    public ResponseEntity<?> deleteAuthor(@RequestBody AuthorDTO authorDTO){
         try{
-            authorService.delete(author);
+            authorService.delete(authorDTO);
             return ResponseEntity.ok().build();
-        } catch (AuthorNotFoundException e) {
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }

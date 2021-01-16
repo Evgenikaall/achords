@@ -1,14 +1,12 @@
 package com.achords.service;
 
-import com.achords.model.Author;
+import com.achords.model.dto.AuthorDTO;
+import com.achords.model.entity.Author;
 import com.achords.repository.AuthorRepo;
 import com.achords.utils.exceptions.AuthorNotFoundException;
-import com.achords.utils.exceptions.EmptyRequestBodyException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,39 +16,34 @@ public class AuthorService {
 
     private final AuthorRepo authorRepo;
 
-    public Author save(Author newAuthor) throws EmptyRequestBodyException {
-        if (newAuthor == null) {
-            throw new EmptyRequestBodyException();
-        } else {
-            return authorRepo.save(newAuthor);
-        }
+    public Author save(Author newAuthor) {
+        return authorRepo.save(newAuthor);
     }
 
-    public Author findById(Integer id) throws AuthorNotFoundException {
-        return authorRepo.findById(id).orElseThrow(AuthorNotFoundException::new);
+    public AuthorDTO findById(Integer id) throws AuthorNotFoundException {
+        return authorRepo.findById(id).map(this::mapToDTO).orElseThrow(AuthorNotFoundException::new);
     }
 
-    public Author update(Author updatedAuthor) throws EmptyRequestBodyException {
-        if(updatedAuthor == null) {
-            throw new EmptyRequestBodyException();
-        }else{
-            return authorRepo.save(updatedAuthor);
-        }
+    public Set<AuthorDTO> getAll() {
+        return authorRepo.findAll().stream().map(this::mapToDTO).collect(Collectors.toSet());
     }
 
-    public Set<Author> getAll() {
-        return new HashSet<>(authorRepo.findAll());
+    public Author findByName(String name) throws AuthorNotFoundException {
+        return authorRepo.findAuthorByName(name).orElseThrow(AuthorNotFoundException::new);
     }
 
-    public void delete(Author currentAuthor) throws AuthorNotFoundException {
-        if (currentAuthor == null) {
-            throw new AuthorNotFoundException();
-        } else {
-            authorRepo.delete(currentAuthor);
-        }
+    public void delete(AuthorDTO authorDTO) throws AuthorNotFoundException {
+        authorRepo.delete(findByName(authorDTO.getName()));
     }
 
-    public Author getAuthorById(Integer id) throws AuthorNotFoundException {
-        return authorRepo.findById(id).orElseThrow(AuthorNotFoundException::new);
+    public AuthorDTO mapToDTO(Author author) {
+        return AuthorDTO.builder()
+                .name(author.getName())
+                .imgPath(author.getImgPath())
+                .build();
+    }
+
+    public Author mapToEntity(AuthorDTO authorDTO) throws AuthorNotFoundException {
+        return findByName(authorDTO.getName());
     }
 }

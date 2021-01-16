@@ -1,12 +1,9 @@
-package com.achords.model;
+package com.achords.model.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,22 +11,23 @@ import java.util.Set;
 @Table(name = "author")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "author_id")
-    private Integer authorId;
+    private Integer id;
 
     @Column(name = "author_name")
-    private String authorName;
+    private String name;
 
     @Column(name = "author_img_path")
-    private String authorImgPath;
+    private String imgPath;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
-    private Set<Song> songListByAuthor = new HashSet<>();
+    private Set<Song> songList = new HashSet<>();
 
 }

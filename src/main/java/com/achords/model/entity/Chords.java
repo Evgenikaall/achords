@@ -1,14 +1,11 @@
-package com.achords.model;
+package com.achords.model.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Data
@@ -18,15 +15,21 @@ import static javax.persistence.FetchType.EAGER;
 public class Chords {
 
     @Id
+    @Column(name = "chord_id")
+    private Integer id;
+
     @Column(name = "chord_name")
-    private String chordName;
+    private String name;
 
     @Column(name = "chord_img_path")
-    private String chordImgPath;
+    private String imgPath;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "chordsSet")
-    private Set<Song> songSetByChords = new HashSet<>();
+    private Set<Song> songSet = new HashSet<>();
+
+    public Chords(Integer id,String name, String imgPath){
+    }
 
 }

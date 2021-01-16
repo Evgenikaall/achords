@@ -34,89 +34,96 @@
     let select
     $(document).ready(
         $.get("api/authors", function (authorsList) {
+            console.log(authorsList);
             select = document.getElementById("select_authors");
             for (let author of authorsList) {
                 if (author !== undefined) {
                     option = document.createElement("option");
-                    option.setAttribute("data-value", author["authorId"]);
+                    option.setAttribute("data-value", author["name"]);
                     option.setAttribute("class", "option-selector-customer");
-                    option.innerHTML = author["authorName"].toString();
+                    option.innerHTML = author["name"].toString();
                     select.appendChild(option);
                 }
             }
         }),
         $.get("api/difficult_level", function (difficult_level_list) {
+            console.log(difficult_level_list);
             select = document.getElementById("select_difficult");
             for (let difficult_level of difficult_level_list) {
                 if (difficult_level !== undefined) {
                     option = document.createElement("option");
-                    option.setAttribute("value", difficult_level["difficultLevelId"]);
+                    option.setAttribute("value", difficult_level["name"]);
                     option.setAttribute("class", "option-selector-customer");
-                    option.innerHTML = difficult_level["difficultLevelName"].toString();
+                    option.innerHTML = difficult_level["name"].toString();
                     select.appendChild(option);
                 }
             }
         }),
         $.get("api/strumming_pattern", function (patterns) {
+            console.log(patterns);
             select = document.getElementById("strumming-pattern-selector-info0");
             genres_counter = 1;
             for (let pattern of patterns) {
                 if (pattern !== undefined) {
                     option = document.createElement("option");
                     option.setAttribute("class", "option-selector-customer");
-                    option.setAttribute("value", pattern["strummingPatternId"]);
-                    option.innerHTML = pattern["strummingPatternName"].toString();
+                    option.setAttribute("value", pattern["name"]);
+                    option.innerHTML = pattern["name"].toString();
                     select.appendChild(option);
                 }
             }
         }),
         $.get("api/section_type", function (section_types_list) {
+            console.log(section_types_list);
             select = document.getElementById("select_section_type");
             for (let section_type of section_types_list) {
                 if (section_type !== undefined) {
                     option = document.createElement("option");
-                    option.setAttribute("value", section_type["sectionTypeId"]);
+                    option.setAttribute("value", section_type["name"]);
                     option.setAttribute("class", "option-selector-customer");
-                    option.innerHTML = section_type["sectionTypeName"].toString();
+                    option.innerHTML = section_type["name"].toString();
                     select.appendChild(option);
                 }
             }
         }),
         $.get("api/tuning", function (tunings) {
+            console.log(tunings);
             select = document.getElementById("select_tuning");
             for (let tuning of tunings) {
                 if (tuning !== undefined) {
                     option = document.createElement("option");
-                    option.setAttribute("value", tuning["tuning"]);
+                    option.setAttribute("value", tuning["name"]);
                     option.setAttribute("class", "option-selector-customer");
-                    option.innerHTML = tuning["tuning"].toString();
+                    option.innerHTML = tuning["name"].toString();
                     select.appendChild(option);
                 }
             }
 
         }),
         $.get("api/language", function (languages_list) {
+            console.log(languages_list);
             select = document.getElementById("language-selector-info0");
             languages_counter = 1;
             for (let language of languages_list) {
                 if (language !== undefined) {
                     option = document.createElement("option");
-                    option.setAttribute("value", language["languageId"]);
+                    option.setAttribute("value", language["name"]);
                     option.setAttribute("class", "option-selector-customer");
-                    option.innerHTML = language["languageName"];
+                    option.innerHTML = language["name"];
                     select.appendChild(option);
                 }
             }
         }),
         $.get("api/genres", function (genres) {
+            console.log(genres);
             select = document.getElementById("genres-selector-info0");
             genres_counter = 1;
             for (let genre of genres) {
                 if (genre !== undefined) {
                     option = document.createElement("option");
-                    option.setAttribute("value", genre["genreId"]);
+                    option.setAttribute("value", genre["name"]);
                     option.setAttribute("class", "option-selector-customer");
-                    option.innerHTML = genre["genreName"].toString();
+                    option.innerHTML = genre["name"].toString();
                     select.appendChild(option);
                 }
             }
@@ -196,8 +203,8 @@
                     if (pattern !== undefined) {
                         option = document.createElement("option");
                         option.setAttribute("class", "option-selector-customer");
-                        option.setAttribute("value", pattern["strummingPatternId"]);
-                        option.innerHTML = pattern["strummingPatternName"].toString();
+                        option.setAttribute("value", pattern["name"]);
+                        option.innerHTML = pattern["name"].toString();
                         selection.appendChild(option);
                     }
                 }
@@ -234,8 +241,8 @@
                     if (language !== undefined) {
                         option = document.createElement("option");
                         option.setAttribute("class", "option-selector-customer");
-                        option.setAttribute("value", language["languageId"]);
-                        option.innerHTML = language["languageName"].toString();
+                        option.setAttribute("value", language["name"]);
+                        option.innerHTML = language["name"].toString();
                         selection.appendChild(option);
                     }
                 }
@@ -272,8 +279,8 @@
                     if (genre !== undefined) {
                         option = document.createElement("option");
                         option.setAttribute("class", "option-selector-customer");
-                        option.setAttribute("value", genre["genreId"]);
-                        option.innerHTML = genre["genreName"].toString();
+                        option.setAttribute("value", genre["name"]);
+                        option.innerHTML = genre["name"].toString();
                         selection.appendChild(option);
                     }
                 }
@@ -368,8 +375,7 @@
         for (let el of $("#select_authors").children()) {
             if (author === el.innerHTML) {
                 author = JSON.parse(JSON.stringify({
-                    authorId: el.getAttribute('data-value'),
-                    authorName: el.innerHTML
+                    name: el.innerHTML
                 }));
                 break;
             }
@@ -378,7 +384,7 @@
         let tuning = $("#select_tuning");
         if (tuning.val() !== null) {
             tuning = JSON.parse(JSON.stringify({
-                tuning: tuning.val()
+                name: tuning.val()
             }));
         }
 
@@ -388,8 +394,7 @@
             temp = $("#genres-selector-info".concat(i.toString()));
             if (temp !== undefined) {
                 genres.push(JSON.parse(JSON.stringify({
-                    genreId: temp.val(),
-                    genreName: temp.children('option:selected').text()
+                    name: temp.val(),
                 })));
             }
         }
@@ -398,8 +403,7 @@
         let difficult = $("#select_difficult");
         if (difficult.val() !== null) {
             difficult = JSON.parse(JSON.stringify({
-                difficultLevelId: difficult.val(),
-                difficultLevelName: difficult.children('option:selected').text()
+                name: difficult.val(),
             }));
         }
 
@@ -408,16 +412,14 @@
         for (let i = 0, temp; i < strumming_counter; i++) {
             temp = $("#strumming-pattern-selector-info".concat(i.toString()));
             strummingPatterns.push(JSON.parse(JSON.stringify({
-                strummingPatternId: temp.val(),
-                strummingPatternName: temp.children('option:selected').text()
+                name: temp.val(),
             })));
         }
 
         let sectionType = $("#select_section_type");
         if (sectionType.val() !== null) {
             sectionType = JSON.parse(JSON.stringify({
-                sectionTypeId: sectionType.val(),
-                sectionTypeName: sectionType.children('option:selected').text()
+                name: sectionType.val(),
             }))
         }
 
@@ -425,8 +427,7 @@
         for (let i = 0, temp; i < languages_counter; i++) {
             temp = $("#language-selector-info".concat(i.toString()));
             languages.push(JSON.parse(JSON.stringify({
-                languageId: temp.val(),
-                languageName: temp.children('option:selected').text()
+                name: temp.val(),
             })));
         }
 
@@ -447,7 +448,6 @@
 
 <script>
     function sendSong() {
-        console.log(result.tuning);
         $.ajax({
             url: '/api/songs',
             dataType: 'json',
@@ -455,17 +455,15 @@
             cache: false,
             contentType: 'application/json',
             data: JSON.stringify({
-                songName: result.song,
-                postDate: null,
-                difficultLevel: result.difficult,
-                songTuning: result.tuning,
+                name: result.song,
                 author: result.author,
+                tuning: result.tuning,
+                difficultLevel: result.difficult,
                 sectionType: result.sectionType,
-                chordsSet: null,
-                genreSet: result.genres,
-                languagesSet: result.languages,
-                strummingPatternSet: result.strummingPatterns,
-                songLyrics: result.lyrics
+                genres: result.genres,
+                languages: result.languages,
+                strummingPatterns: result.strummingPatterns,
+                lyrics: result.lyrics
             })
         })
 

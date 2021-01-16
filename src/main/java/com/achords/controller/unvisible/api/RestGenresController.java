@@ -1,8 +1,8 @@
 package com.achords.controller.unvisible.api;
 
-import com.achords.model.Genre;
+import com.achords.model.dto.GenreDTO;
+import com.achords.model.entity.Genre;
 import com.achords.service.GenresService;
-import com.achords.utils.exceptions.EmptyRequestBodyException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,19 +17,19 @@ public class RestGenresController {
     private final GenresService genresService;
 
     @GetMapping
-    public ResponseEntity<Set<Genre>> getAll(){
-        Set<Genre> genresList = genresService.getAll();
-        if(genresList.isEmpty())
+    public ResponseEntity<Set<GenreDTO>> getAll() {
+        try {
+            return ResponseEntity.ok(genresService.getAll());
+        } catch (Exception e) {
             return ResponseEntity.noContent().build();
-        else
-            return ResponseEntity.ok(genresList);
+        }
     }
 
     @PostMapping
-    public ResponseEntity<Genre> save(@RequestBody Genre genre){
-        try{
-            return ResponseEntity.ok(genresService.save(genre));
-        } catch (EmptyRequestBodyException e) {
+    public ResponseEntity<Genre> save(@RequestBody GenreDTO genreDTO) {
+        try {
+            return ResponseEntity.ok(genresService.save(genreDTO));
+        } catch (Exception e) {
             return ResponseEntity.noContent().build();
         }
     }
