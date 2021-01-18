@@ -42,15 +42,11 @@ public class SongConverter {
                     try{
                         chordsTemp = chordsService.mapToEntity(chordsDTO);
                     } catch (ChordNotFoundException e) {
-                        chordsTemp = chordsService.save(chordsDTO);
-                        System.out.println(chordsTemp);
+                        // log
                     }
                     return chordsTemp;
                 })
                 .collect(Collectors.toSet());
-        // i'm here
-        System.out.println(chords);
-
 
         Set<Genre> genre = songDTO.getGenres().stream()
                 .map(genreDTO -> {
@@ -100,6 +96,7 @@ public class SongConverter {
                 .sectionType(sectionType)
                 .strummingPatternSet(strummingPatterns)
                 .lyrics(songDTO.getLyrics())
+                .comments(songDTO.getComments())
                 .build();
     }
 
@@ -133,6 +130,7 @@ public class SongConverter {
                 .name(song.getName())
                 .author(authorDTO)
                 .lyrics(song.getLyrics())
+                .comments(song.getComments())
                 .difficultLevel(difficultLevelDTO)
                 .sectionType(sectionTypeDTO)
                 .tuning(tuningDTO)

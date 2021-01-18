@@ -38,7 +38,7 @@
             for (let author of authorsList) {
                 if (author !== undefined) {
                     option = document.createElement("option");
-                    option.setAttribute("data-value", author["name"]);
+                    option.setAttribute("value", author["name"]);
                     option.setAttribute("class", "option-selector-customer");
                     option.innerHTML = author["name"].toString();
                     select.appendChild(option);
@@ -292,7 +292,7 @@
         constructor() {
         }
 
-        setValues(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics, comments,chords) {
+        setValues(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics, comments, chords) {
             this.song = song;
             this.author = author;
             this.genres = genres;
@@ -310,8 +310,13 @@
 
 <script>
 
-    function getAnswer(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics) {
+    function getAnswer(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics, chords) {
+
         let statement = true;
+
+        if(chords.length === 0){
+            statement = false;
+        }
 
         if (tuning["name"] === 0) {
             statement = false;
@@ -427,9 +432,7 @@
 
         let lyrics = $("#song_text").val();
 
-        let answer = getAnswer(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics);
-
-        let comments = $("#comment_section").val();
+        let comments = $("#song_comments").val();
 
         let notes = "[CDEFGAB]",
             accidentals = "(b|bb)?",
@@ -439,15 +442,42 @@
             regex = new RegExp("\\b" + notes + accidentals + chords_pattern + suspends + "\\b" + sharp, "g");
 
         let chords_founded = new Set(lyrics.match(regex));
-        let chords = new Array();
+
+        let chord_main_list = [];
+
+        $.get("api/chords", function (chords_ls) {
+            let temp = new Set();
+            for (let chord of chords_ls) {
+                temp.add(chord["name"]);
+            }
+            for (let founded of chords_founded) {
+                if (!temp.has(founded)) {
+                    $.ajax({
+                        url: '/api/chords',
+                        dataType: 'json',
+                        type: 'POST',
+                        cache: false,
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            name: founded
+                        })
+                    });
+                }
+            }
+        });
+
         for(let chord of chords_founded){
-            chords.push(JSON.parse(JSON.stringify({
+            chord_main_list.push(JSON.parse(JSON.stringify({
                 name : chord
             })));
         }
 
+
+        let answer = getAnswer(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics, chord_main_list);
+
+
         if (answer) {
-            result.setValues(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics,comments,chords);
+            result.setValues(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics, comments, chord_main_list);
             console.log(result);
             $("#bottom_button_block").slideDown("slow");
         } else {
@@ -475,7 +505,9 @@
                 languages: result.languages,
                 strummingPatterns: result.strummingPatterns,
                 chords: result.chords,
-                lyrics: result.lyrics
+                lyrics: result.lyrics,
+                comments: result.comments
+                // success: window.location.href = "/"
             })
         })
     }
@@ -587,7 +619,7 @@
             </form>
             <div class="append-body-header top-part text-center">
                 <h1 class="append-body-comment-block text-center">Comments on section</h1>
-                <textarea oninput="validateForm()" id="comment_section"
+                <textarea oninput="validateForm()" id="song_comments"
                           class="comment-input input-form-customer text-area-customer input-text-customer comment-input-text"
                           placeholder="Comments..."></textarea>
             </div>

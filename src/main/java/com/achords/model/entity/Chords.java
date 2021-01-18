@@ -16,6 +16,7 @@ import java.util.Set;
 public class Chords {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chord_id")
     private Integer id;
 

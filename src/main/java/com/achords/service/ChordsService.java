@@ -24,12 +24,13 @@ public class ChordsService {
         return chordsRepo.findById(id).orElseThrow(ChordNotFoundException::new);
     }
 
-    public Chords findByName(String name) throws ChordNotFoundException {
+    public Chords findByName(String name) throws  ChordNotFoundException{
         return chordsRepo.findByName(name).orElseThrow(ChordNotFoundException::new);
     }
 
     public Chords save(ChordsDTO chordsDTO){
         Chords chords = Chords.builder().name(chordsDTO.getName()).imgPath("pathToUpdate").build();
+        System.out.println("I'm here");
         return chordsRepo.save(chords);
     }
 

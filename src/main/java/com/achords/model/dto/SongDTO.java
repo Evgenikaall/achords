@@ -19,5 +19,6 @@ public class SongDTO {
     private Set<StrummingPatternDTO> strummingPatterns;
     private Set<ChordsDTO> chords;
     private String lyrics;
+    private String comments;
 
 }

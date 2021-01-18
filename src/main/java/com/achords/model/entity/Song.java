@@ -81,8 +81,12 @@ public class Song {
     )
     private Set<StrummingPattern> strummingPatternSet = new HashSet<>();
 
-    @Column(name = "song_lyrics")
+    @Lob
+    @Column(name = "song_lyrics", length = 65535, columnDefinition = "text")
     private String lyrics;
+
+    @Column(name = "song_comments", length = 65535, columnDefinition = "text")
+    private String comments;
 
 
 }
