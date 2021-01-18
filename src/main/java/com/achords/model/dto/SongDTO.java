@@ -17,6 +17,7 @@ public class SongDTO {
     private Set<GenreDTO> genres;
     private Set<LanguageDTO> languages;
     private Set<StrummingPatternDTO> strummingPatterns;
+    private Set<ChordsDTO> chords;
     private String lyrics;
 
 }

@@ -14,6 +14,6 @@ font-family: 'Nixie One', cursive;
 
 
 .page{
-    background-image: url(../img/bg.jpg);
-    background-repeat: repeat;
+    background: url(../img/bg.jpg);
+    background-size: cover;
 }

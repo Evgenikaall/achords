@@ -43,7 +43,7 @@ public class RestSongsController {
         try {
             Song song = songConverter.mapToEntity(songRequest);
             System.out.println(song);
-            songService.save(song);
+//            songService.save(song);
             return ResponseEntity.ok().build();
         } catch (Exception exception) {
             return ResponseEntity.notFound().build();

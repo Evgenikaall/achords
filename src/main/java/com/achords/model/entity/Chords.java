@@ -12,6 +12,7 @@ import java.util.Set;
 @Table(name = "chord")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Chords {
 
     @Id

@@ -28,6 +28,11 @@ public class ChordsService {
         return chordsRepo.findByName(name).orElseThrow(ChordNotFoundException::new);
     }
 
+    public Chords save(ChordsDTO chordsDTO){
+        Chords chords = Chords.builder().name(chordsDTO.getName()).imgPath("pathToUpdate").build();
+        return chordsRepo.save(chords);
+    }
+
     public ChordsDTO mapToDTO(Chords chords){
         return ChordsDTO.builder()
                 .name(chords.getName())

@@ -3,6 +3,7 @@ package com.achords.utils.converters;
 import com.achords.model.dto.*;
 import com.achords.model.entity.*;
 import com.achords.service.*;
+import com.achords.utils.exceptions.ChordNotFoundException;
 import com.achords.utils.exceptions.GenreNotFoundException;
 import com.achords.utils.exceptions.LanguageNotFoundException;
 import com.achords.utils.exceptions.StrummingPatterNotFoundException;
@@ -31,10 +32,25 @@ public class SongConverter {
         Author author = authorService.mapToEntity(songDTO.getAuthor());
         DifficultLevel difficultLevel = difficultLevelService.findByName(songDTO.getDifficultLevel().getName());
         SectionType sectionType = sectionTypeService.findByName(songDTO.getSectionType().getName());
-        Set<Chords> chords = new HashSet<>();
-        chords.add(chordsService.findById(1));
-        System.out.println(chords);
+
+
         Tuning tuning = tuningService.findByName(songDTO.getTuning().getName());
+
+        Set<Chords> chords = songDTO.getChords().stream()
+                .map(chordsDTO -> {
+                    Chords chordsTemp = null;
+                    try{
+                        chordsTemp = chordsService.mapToEntity(chordsDTO);
+                    } catch (ChordNotFoundException e) {
+                        chordsTemp = chordsService.save(chordsDTO);
+                        System.out.println(chordsTemp);
+                    }
+                    return chordsTemp;
+                })
+                .collect(Collectors.toSet());
+        // i'm here
+        System.out.println(chords);
+
 
         Set<Genre> genre = songDTO.getGenres().stream()
                 .map(genreDTO -> {
@@ -42,7 +58,7 @@ public class SongConverter {
                     try {
                         genreTemp = genresService.findByName(genreDTO.getName());
                     } catch (GenreNotFoundException e) {
-                        e.printStackTrace();
+                        //log
                     }
                     return genreTemp;
                 })
@@ -108,6 +124,11 @@ public class SongConverter {
                 .stream().map(strummingPatternService::mapToDTO)
                 .collect(Collectors.toSet());
 
+        Set<ChordsDTO> chordsDTO = song.getChordsSet()
+                .stream().map(chordsService::mapToDTO)
+                .collect(Collectors.toSet());
+
+
         return SongDTO.builder()
                 .name(song.getName())
                 .author(authorDTO)
@@ -118,6 +139,7 @@ public class SongConverter {
                 .genres(genreDTO)
                 .languages(languageDTO)
                 .strummingPatterns(strummingPatternDTO)
+                .chords(chordsDTO)
                 .build();
     }
 }

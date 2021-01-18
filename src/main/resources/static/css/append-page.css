@@ -12,7 +12,10 @@
     font-size: 50px;
     padding: 1% 0;
     margin: 0;
-    transition: border-bottom 0.5s ease-in-out;
+}
+
+.append-body-comment-block{
+    font-size: 30px !important;
 }
 
 .bottom-part{
@@ -144,6 +147,20 @@
     text-indent: 0 !important;
 }
 
+.comment-input{
+    height: 10vh;
+    width: 95%;
+}
+
+.comment-input-text{
+    padding: 1%;
+    font-size: 14px;
+}
+
+.comment-input-text::placeholder{
+    text-indent: 0 !important;
+}
+
 .select-form-customer{
     padding: 2% 0;
     text-indent: 20px;
@@ -199,6 +216,7 @@ input[list]{
 }
 
 #bottom_button_block{
+    padding: 2% 0;
     display: none;
 }
 

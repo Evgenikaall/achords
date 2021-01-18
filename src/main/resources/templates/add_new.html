@@ -34,7 +34,6 @@
     let select
     $(document).ready(
         $.get("api/authors", function (authorsList) {
-            console.log(authorsList);
             select = document.getElementById("select_authors");
             for (let author of authorsList) {
                 if (author !== undefined) {
@@ -47,7 +46,6 @@
             }
         }),
         $.get("api/difficult_level", function (difficult_level_list) {
-            console.log(difficult_level_list);
             select = document.getElementById("select_difficult");
             for (let difficult_level of difficult_level_list) {
                 if (difficult_level !== undefined) {
@@ -60,7 +58,6 @@
             }
         }),
         $.get("api/strumming_pattern", function (patterns) {
-            console.log(patterns);
             select = document.getElementById("strumming-pattern-selector-info0");
             genres_counter = 1;
             for (let pattern of patterns) {
@@ -74,7 +71,6 @@
             }
         }),
         $.get("api/section_type", function (section_types_list) {
-            console.log(section_types_list);
             select = document.getElementById("select_section_type");
             for (let section_type of section_types_list) {
                 if (section_type !== undefined) {
@@ -87,7 +83,6 @@
             }
         }),
         $.get("api/tuning", function (tunings) {
-            console.log(tunings);
             select = document.getElementById("select_tuning");
             for (let tuning of tunings) {
                 if (tuning !== undefined) {
@@ -101,7 +96,6 @@
 
         }),
         $.get("api/language", function (languages_list) {
-            console.log(languages_list);
             select = document.getElementById("language-selector-info0");
             languages_counter = 1;
             for (let language of languages_list) {
@@ -115,7 +109,6 @@
             }
         }),
         $.get("api/genres", function (genres) {
-            console.log(genres);
             select = document.getElementById("genres-selector-info0");
             genres_counter = 1;
             for (let genre of genres) {
@@ -299,7 +292,7 @@
         constructor() {
         }
 
-        setValues(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics) {
+        setValues(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics, comments,chords) {
             this.song = song;
             this.author = author;
             this.genres = genres;
@@ -309,6 +302,8 @@
             this.sectionType = sectionType;
             this.languages = languages;
             this.lyrics = lyrics;
+            this.comments = comments;
+            this.chords = chords;
         }
     }
 </script>
@@ -318,7 +313,7 @@
     function getAnswer(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics) {
         let statement = true;
 
-        if (tuning.length === 0) {
+        if (tuning["name"] === 0) {
             statement = false;
         }
         if (song.length === 0) {
@@ -330,29 +325,28 @@
         }
 
         for (let genre of genres) {
-            if (genre == null) {
+            if (genre["name"] == null) {
                 statement = false;
                 break;
             }
         }
-
-        if (difficult.length === 0) {
+        if (difficult["name"] === 0) {
             statement = false;
         }
 
         for (let pattern of strummingPatterns) {
-            if (pattern == null) {
+            if (pattern["name"] == null) {
                 statement = false;
                 break;
             }
         }
 
-        if (sectionType.length === 0) {
+        if (sectionType["name"] === 0) {
             statement = false;
         }
 
         for (let language of languages) {
-            if (language == null) {
+            if (language["name"] == null) {
                 statement = false;
                 break;
             }
@@ -435,8 +429,25 @@
 
         let answer = getAnswer(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics);
 
+        let comments = $("#comment_section").val();
+
+        let notes = "[CDEFGAB]",
+            accidentals = "(b|bb)?",
+            chords_pattern = "(m|maj7|maj|min7|min|sus)?",
+            suspends = "(1|2|3|4|5|6|7|8|9)?",
+            sharp = "(#)?",
+            regex = new RegExp("\\b" + notes + accidentals + chords_pattern + suspends + "\\b" + sharp, "g");
+
+        let chords_founded = new Set(lyrics.match(regex));
+        let chords = new Array();
+        for(let chord of chords_founded){
+            chords.push(JSON.parse(JSON.stringify({
+                name : chord
+            })));
+        }
+
         if (answer) {
-            result.setValues(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics);
+            result.setValues(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics,comments,chords);
             console.log(result);
             $("#bottom_button_block").slideDown("slow");
         } else {
@@ -463,14 +474,13 @@
                 genres: result.genres,
                 languages: result.languages,
                 strummingPatterns: result.strummingPatterns,
+                chords: result.chords,
                 lyrics: result.lyrics
             })
         })
-
-        // переделать
-        // result.genres include just genre name
     }
 </script>
+
 <body class="page">
 <div class="append-body-placement">
     <div class="container">
@@ -483,7 +493,7 @@
                             <label for="song_name" class="input-text-label-customer input-text-customer w-100">Input
                                 song's name</label>
                             <input type="text" placeholder="Song's name" id="song_name" oninput="validateForm()"
-                                   class="input-form-customer song-name w-75">
+                                   class="input-form-customer song-name w-75" autocomplete="off">
                         </div>
                         <div class="form-group-customer">
                             <label for="select_authors" class="input-text-label-customer w-100">Choose song's
@@ -575,6 +585,13 @@
                     </div>
                 </div>
             </form>
+            <div class="append-body-header top-part text-center">
+                <h1 class="append-body-comment-block text-center">Comments on section</h1>
+                <textarea oninput="validateForm()" id="comment_section"
+                          class="comment-input input-form-customer text-area-customer input-text-customer comment-input-text"
+                          placeholder="Comments..."></textarea>
+            </div>
+
             <div id="bottom_button_block" class="append-body-header top-part text-center">
                 <button id="submit_button" onclick="sendSong()" class="input-form-customer"><p>Save</p></button>
             </div>
