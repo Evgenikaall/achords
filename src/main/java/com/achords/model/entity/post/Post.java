@@ -5,12 +5,13 @@ import com.achords.model.entity.user.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "post", schema = "post")
+@Table(name = "post", schema = "post_schema")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -32,15 +33,12 @@ public class Post {
     @Column(name = "views")
     private Integer views;
 
+    @Column(name = "post_date")
+    private Date postDate;
+
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(
-            name = "post_comments",
-            joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "comment_id"),
-            schema = "post"
-    )
-    private Set<Comment> commentSet = new HashSet<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private Set<Comment> comments = new HashSet<>();
 
 }

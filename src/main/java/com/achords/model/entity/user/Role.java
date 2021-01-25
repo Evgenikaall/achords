@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "role", schema = "user")
+@Table(name = "role", schema = "user_schema")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

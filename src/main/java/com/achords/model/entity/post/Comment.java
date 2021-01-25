@@ -2,14 +2,16 @@ package com.achords.model.entity.post;
 
 import com.achords.model.entity.user.User;
 import lombok.*;
+import org.hibernate.annotations.JoinColumnOrFormula;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "comments", schema = "post")
+@Table(name = "comments", schema = "post_schema")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -28,9 +30,12 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @ManyToMany(mappedBy = "commentsSet")
-    private Set<Post> posts = new HashSet<>();
+    @Column(name = "comment_date")
+    private Date commentDate;
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "post_id")
+    private Post post;
 
 }

@@ -2,7 +2,10 @@ package com.achords.controller.unvisible.api;
 
 import com.achords.model.dto.song.SongDTO;
 import com.achords.model.entity.song.Song;
+import com.achords.repository.postRepo.PostRepo;
+import com.achords.service.post.PostService;
 import com.achords.service.song.SongService;
+import com.achords.utils.converters.PostConverter;
 import com.achords.utils.converters.SongConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,8 @@ public class RestSongsController {
 
     private final SongService songService;
     private final SongConverter songConverter;
+    private final PostService postService;
+    private final PostConverter postConverter;
 
     @GetMapping
     public ResponseEntity<List<SongDTO>> getAll() {
@@ -27,20 +32,11 @@ public class RestSongsController {
         }
     }
 
-
-//    @GetMapping("/{id}")
-//    public ResponseEntity<SongDTO> getSongById(@PathVariable Integer id) {
-//        try {
-//            return ResponseEntity.ok();
-//        } catch (SongNotFoundException e) {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-
     @PostMapping
-    public ResponseEntity<Song> saveNewSong(@RequestBody SongDTO songRequest) {
+    public ResponseEntity<Song> saveNewSong(@RequestBody SongDTO songRequest/*@AuthenitficationPrincipal User user*/) {
         try {
             Song song = songConverter.mapToEntity(songRequest);
+            postService.save(postConverter.mapToEntity(song));
             songService.save(song);
             return ResponseEntity.ok().build();
         } catch (Exception exception) {
