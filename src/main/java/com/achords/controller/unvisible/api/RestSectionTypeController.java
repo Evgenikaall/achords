@@ -1,8 +1,7 @@
 package com.achords.controller.unvisible.api;
 
-import com.achords.model.dto.SectionTypeDTO;
-import com.achords.model.entity.SectionType;
-import com.achords.service.SectionTypeService;
+import com.achords.model.dto.song.SectionTypeDTO;
+import com.achords.service.song.SectionTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

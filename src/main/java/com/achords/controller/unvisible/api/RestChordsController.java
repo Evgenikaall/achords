@@ -1,8 +1,8 @@
 package com.achords.controller.unvisible.api;
 
-import com.achords.model.dto.ChordsDTO;
-import com.achords.model.entity.Chords;
-import com.achords.service.ChordsService;
+import com.achords.model.dto.song.ChordsDTO;
+import com.achords.model.entity.song.Chords;
+import com.achords.service.song.ChordsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

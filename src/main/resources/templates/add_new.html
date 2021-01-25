@@ -314,7 +314,7 @@
 
         let statement = true;
 
-        if(chords.length === 0){
+        if (chords.length === 0) {
             statement = false;
         }
 
@@ -465,16 +465,12 @@
                 }
             }
         });
-
-        for(let chord of chords_founded){
+        for (let chord of chords_founded) {
             chord_main_list.push(JSON.parse(JSON.stringify({
-                name : chord
+                name: chord
             })));
         }
-
-
         let answer = getAnswer(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics, chord_main_list);
-
 
         if (answer) {
             result.setValues(song, tuning, author, genres, difficult, strummingPatterns, sectionType, languages, lyrics, comments, chord_main_list);
@@ -506,8 +502,8 @@
                 strummingPatterns: result.strummingPatterns,
                 chords: result.chords,
                 lyrics: result.lyrics,
-                comments: result.comments
-                // success: window.location.href = "/"
+                comments: result.comments,
+                success: window.location.href = "/"
             })
         })
     }

@@ -1,8 +1,8 @@
 package com.achords.controller.unvisible.api;
 
-import com.achords.model.dto.StrummingPatternDTO;
-import com.achords.model.entity.StrummingPattern;
-import com.achords.service.StrummingPatternService;
+import com.achords.model.dto.song.StrummingPatternDTO;
+import com.achords.model.entity.song.StrummingPattern;
+import com.achords.service.song.StrummingPatternService;
 import com.achords.utils.exceptions.StrummingPatterNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

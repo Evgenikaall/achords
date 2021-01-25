@@ -1,7 +1,7 @@
 package com.achords.controller.unvisible.api;
 
-import com.achords.model.dto.DifficultLevelDTO;
-import com.achords.service.DifficultLevelService;
+import com.achords.model.dto.song.DifficultLevelDTO;
+import com.achords.service.song.DifficultLevelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

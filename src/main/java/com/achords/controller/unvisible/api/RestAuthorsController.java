@@ -1,9 +1,8 @@
 package com.achords.controller.unvisible.api;
 
-import com.achords.model.dto.AuthorDTO;
-import com.achords.model.entity.Author;
-import com.achords.service.AuthorService;
-import com.achords.utils.exceptions.AuthorNotFoundException;
+import com.achords.model.dto.song.AuthorDTO;
+import com.achords.model.entity.song.Author;
+import com.achords.service.song.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

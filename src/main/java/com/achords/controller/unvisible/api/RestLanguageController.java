@@ -1,8 +1,7 @@
 package com.achords.controller.unvisible.api;
 
-import com.achords.model.dto.LanguageDTO;
-import com.achords.model.entity.Language;
-import com.achords.service.LanguageService;
+import com.achords.model.dto.song.LanguageDTO;
+import com.achords.service.song.LanguageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

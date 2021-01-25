@@ -1,8 +1,7 @@
 package com.achords.controller.unvisible.api;
 
-import com.achords.model.dto.TuningDTO;
-import com.achords.model.entity.Tuning;
-import com.achords.service.TuningService;
+import com.achords.model.dto.song.TuningDTO;
+import com.achords.service.song.TuningService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

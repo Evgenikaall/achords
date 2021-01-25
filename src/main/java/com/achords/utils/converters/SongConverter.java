@@ -1,8 +1,8 @@
 package com.achords.utils.converters;
 
-import com.achords.model.dto.*;
-import com.achords.model.entity.*;
-import com.achords.service.*;
+import com.achords.model.dto.song.*;
+import com.achords.model.entity.song.*;
+import com.achords.service.song.*;
 import com.achords.utils.exceptions.ChordNotFoundException;
 import com.achords.utils.exceptions.GenreNotFoundException;
 import com.achords.utils.exceptions.LanguageNotFoundException;
@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 

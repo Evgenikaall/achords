@@ -1,8 +1,8 @@
 package com.achords.controller.unvisible.api;
 
-import com.achords.model.dto.GenreDTO;
-import com.achords.model.entity.Genre;
-import com.achords.service.GenresService;
+import com.achords.model.dto.song.GenreDTO;
+import com.achords.model.entity.song.Genre;
+import com.achords.service.song.GenresService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
