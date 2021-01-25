@@ -8,7 +8,8 @@ CREATE TABLE user_form
 (
     user_id  INT PRIMARY KEY,
     email    VARCHAR(50),
-    password VARCHAR(60)
+    password VARCHAR(60),
+    avatar   VARCHAR(50)
 );
 
 CREATE TABLE user_role

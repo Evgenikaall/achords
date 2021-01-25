@@ -1,14 +1,12 @@
 package com.achords.model.entity.song;
 
-
+import com.achords.model.entity.post.Post;
 import lombok.*;
-
 
 import javax.persistence.*;
 import java.util.*;
 
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 
 @Entity
@@ -92,6 +90,5 @@ public class Song {
     @Lob
     @Column(name = "song_comments", length = 65535, columnDefinition = "text")
     private String comments;
-
 
 }
