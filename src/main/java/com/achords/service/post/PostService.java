@@ -7,6 +7,7 @@ import com.achords.repository.postRepo.PostRepo;
 import com.achords.utils.converters.PostConverter;
 import com.achords.utils.converters.SongConverter;
 import com.achords.utils.converters.UserConverter;
+import com.achords.utils.exceptions.PostNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +32,14 @@ public class PostService {
 
     public Post save(Post post){
         return postRepo.save(post);
+    }
+
+    public PostDTO findDtoById(Integer id) throws PostNotFoundException {
+        return postConverter.mapToDTO(postRepo.findById(id).orElseThrow(PostNotFoundException::new));
+    }
+
+    public Post findById(Integer id) throws PostNotFoundException{
+        return postRepo.findById(id).orElseThrow(PostNotFoundException::new);
     }
 
 

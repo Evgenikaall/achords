@@ -1,7 +1,9 @@
 package com.achords.controller.unvisible.api;
 
 import com.achords.model.dto.post.PostDTO;
+import com.achords.model.entity.post.Post;
 import com.achords.service.post.PostService;
+import com.achords.utils.exceptions.PostNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,5 +24,9 @@ public class PostController {
         return postService.findPaginated(pageNo,pageSize);
     }
 
+    @GetMapping("/{id}")
+    public PostDTO getPost(@PathVariable Integer id) throws PostNotFoundException {
+        return postService.findDtoById(id);
+    }
 
 }
