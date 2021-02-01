@@ -18,8 +18,37 @@
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/main-body.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
-</head>
+    <link rel="stylesheet" th:href="@{/css/table-style.css}">
 
+</head>
+<script>
+    $(document).ready(
+        $.get("/api/posts/page/0", function (posts){
+            let container = document.getElementById("song-content-main-list");
+            let row,author,name,views;
+            for (let post of posts){
+                console.log(post);
+                row = document.createElement("li");
+                row.setAttribute("class", "table-row");
+                author = document.createElement("div");
+                author.setAttribute("class","col-init");
+                author.innerHTML = post["song"]["author"]["name"];
+                name = document.createElement("div");
+                name.setAttribute("class","col-sec");
+                name.innerHTML = post["song"]["name"];
+                views = document.createElement("div");
+                views.setAttribute("class","col-last text-right");
+                views.innerHTML = post["views"];
+                row.appendChild(author);
+                row.appendChild(name);
+                row.appendChild(views);
+                console.log(row);
+                container.appendChild(row);
+            }
+
+        })
+    )
+</script>
 <body class="page">
 
 <header th:insert="~{header :: header}"></header>
@@ -27,7 +56,7 @@
 <div class="main-body-placement">
     <div class="container">
         <div class="main-body">
-            <div class="row main-body-main-row">
+            <div class="row">
                 <div class="col-sm-4 main-body-left-column">
                     <div class="main-body-left-column-sections">
                         <div class="main-body-left-column-section">
@@ -80,7 +109,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-8"></div>
+                <div class="col-sm-8 main-body-right-column">
+                    <div class="main-content-box">
+                    <div class="w-100 bottom-part text-center main-content-header">Song list</div>
+                        <ul class="responsive-table" id="song-content-main-list">
+                            <li class="table-header">
+                                <div class="col-init">Author</div>
+                                <div class="col-sec">Song's name</div>
+                                <div class="col-last text-right">Views</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

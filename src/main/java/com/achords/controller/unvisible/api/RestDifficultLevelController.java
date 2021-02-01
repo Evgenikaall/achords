@@ -10,7 +10,7 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/difficult_level")
+@RequestMapping("/api/difficult_level")
 public class RestDifficultLevelController {
 
     private final DifficultLevelService difficultLevelService;

@@ -11,6 +11,7 @@ import java.util.Set;
 @Table(name = "genre", schema = "model")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Genre {
 
     @Id

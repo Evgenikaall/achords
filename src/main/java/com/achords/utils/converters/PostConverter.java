@@ -1,15 +1,14 @@
 package com.achords.utils.converters;
 
 import com.achords.model.dto.post.PostDTO;
-import com.achords.model.entity.post.Comment;
+import com.achords.model.dto.user.UserDetailsImpl;
 import com.achords.model.entity.post.Post;
 import com.achords.model.entity.song.Song;
-import com.achords.utils.exceptions.CommentNotFoundException;
+import com.achords.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +18,7 @@ public class PostConverter {
     private final SongConverter songConverter;
     private final UserConverter userConverter;
     private final CommentConverter commentConverter;
+    private final UserService userService;
 
     public PostDTO mapToDTO(Post post) {
         return PostDTO.builder()
@@ -31,11 +31,11 @@ public class PostConverter {
                 .build();
     }
 
-    public Post mapToEntity(Song song /*User*/) {
+    public Post mapToEntity(Song song, UserDetailsImpl user) {
         return Post.builder()
                 .song(song)
                 .postDate(new Timestamp(System.currentTimeMillis()))
-                //.user(user)
+                .user(userService.findByUsername(user.getNickname()))
                 .views(0)
                 .build();
     }

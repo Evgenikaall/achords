@@ -11,7 +11,7 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/chords")
+@RequestMapping("/api/chords")
 public class RestChordsController {
 
     private final ChordsService chordsService;

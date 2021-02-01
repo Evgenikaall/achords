@@ -12,10 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -24,13 +24,13 @@ public class PostService {
     private final PostRepo postRepo;
     private final PostConverter postConverter;
 
-    public List<PostDTO> findPaginated(int pageNo, int pageSize){
-        Pageable paging = PageRequest.of(pageNo, pageSize);
+    public List<PostDTO> findPaginated(int pageNo) {
+        Pageable paging = PageRequest.of(pageNo, 20, Sort.by("views").descending());
         Page<PostDTO> page = postRepo.findAll(paging).map(postConverter::mapToDTO);
         return page.toList();
     }
 
-    public Post save(Post post){
+    public Post save(Post post) {
         return postRepo.save(post);
     }
 
@@ -38,7 +38,7 @@ public class PostService {
         return postConverter.mapToDTO(postRepo.findById(id).orElseThrow(PostNotFoundException::new));
     }
 
-    public Post findById(Integer id) throws PostNotFoundException{
+    public Post findById(Integer id) throws PostNotFoundException {
         return postRepo.findById(id).orElseThrow(PostNotFoundException::new);
     }
 

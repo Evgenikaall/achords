@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html   lang="en"
+        xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,7 +34,7 @@
     let option;
     let select
     $(document).ready(
-        $.get("api/authors", function (authorsList) {
+        $.get("/api/authors", function (authorsList) {
             select = document.getElementById("select_authors");
             for (let author of authorsList) {
                 if (author !== undefined) {
@@ -45,7 +46,7 @@
                 }
             }
         }),
-        $.get("api/difficult_level", function (difficult_level_list) {
+        $.get("/api/difficult_level", function (difficult_level_list) {
             select = document.getElementById("select_difficult");
             for (let difficult_level of difficult_level_list) {
                 if (difficult_level !== undefined) {
@@ -57,7 +58,7 @@
                 }
             }
         }),
-        $.get("api/strumming_pattern", function (patterns) {
+        $.get("/api/strumming_pattern", function (patterns) {
             select = document.getElementById("strumming-pattern-selector-info0");
             genres_counter = 1;
             for (let pattern of patterns) {
@@ -70,7 +71,7 @@
                 }
             }
         }),
-        $.get("api/section_type", function (section_types_list) {
+        $.get("/api/section_type", function (section_types_list) {
             select = document.getElementById("select_section_type");
             for (let section_type of section_types_list) {
                 if (section_type !== undefined) {
@@ -82,7 +83,7 @@
                 }
             }
         }),
-        $.get("api/tuning", function (tunings) {
+        $.get("/api/tuning", function (tunings) {
             select = document.getElementById("select_tuning");
             for (let tuning of tunings) {
                 if (tuning !== undefined) {
@@ -95,7 +96,7 @@
             }
 
         }),
-        $.get("api/language", function (languages_list) {
+        $.get("/api/language", function (languages_list) {
             select = document.getElementById("language-selector-info0");
             languages_counter = 1;
             for (let language of languages_list) {
@@ -108,7 +109,7 @@
                 }
             }
         }),
-        $.get("api/genres", function (genres) {
+        $.get("/api/genres", function (genres) {
             select = document.getElementById("genres-selector-info0");
             genres_counter = 1;
             for (let genre of genres) {
@@ -170,7 +171,7 @@
 <script>
 
     function addStrummingSelection() {
-        $.get("api/strumming_pattern", function (patterns) {
+        $.get("/api/strumming_pattern", function (patterns) {
 
             let section = document.getElementById("strumming_pattern_block");
             if (section.childElementCount - 1 < patterns.length) {
@@ -211,7 +212,7 @@
     }
 
     function addLanguageSelector() {
-        $.get("api/language", function (languages) {
+        $.get("/api/language", function (languages) {
             let section = document.getElementById("language_block");
             if (section.childElementCount - 1 < languages.length) {
                 let selection = document.createElement("select");
@@ -249,7 +250,7 @@
     }
 
     function addGenresSelector() {
-        $.get("api/genres", function (genres) {
+        $.get("/api/genres", function (genres) {
             let section = document.getElementById("genres_selector_block");
             if (section.childElementCount - 1 < genres.length) {
 

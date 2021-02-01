@@ -12,7 +12,7 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/language")
+@RequestMapping("/api/language")
 public class RestLanguageController {
 
     private final LanguageService languageService;

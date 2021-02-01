@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("api/strumming_pattern")
+@RequestMapping("/api/strumming_pattern")
 @RequiredArgsConstructor
 public class RestStrummingPatternController {
 

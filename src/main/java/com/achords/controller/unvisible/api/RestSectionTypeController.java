@@ -12,7 +12,7 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/section_type")
+@RequestMapping("/api/section_type")
 public class RestSectionTypeController {
 
     private final SectionTypeService sectionTypeService;
