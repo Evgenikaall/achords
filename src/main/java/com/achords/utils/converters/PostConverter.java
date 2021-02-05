@@ -5,6 +5,7 @@ import com.achords.model.dto.user.UserDetailsImpl;
 import com.achords.model.entity.post.Post;
 import com.achords.model.entity.song.Song;
 import com.achords.service.user.UserService;
+import com.achords.utils.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class PostConverter {
                 .build();
     }
 
-    public Post mapToEntity(Song song, UserDetailsImpl user) {
+    public Post mapToEntity(Song song, UserDetailsImpl user) throws UserNotFoundException {
         return Post.builder()
                 .song(song)
                 .postDate(new Timestamp(System.currentTimeMillis()))

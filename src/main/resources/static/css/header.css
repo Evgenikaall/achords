@@ -8,6 +8,7 @@
 
 .logo-container{
 	padding: 1px 0 3px 0;
+	margin-right: 5%;
 }
 
 .logo{
@@ -89,13 +90,12 @@
 	color: #ffffff;
 	font-size: 25px;
 	transition: text-shadow 0.2s ease-in-out;
-
 }
 
 
 .nav-link:hover{
 	color: #ffffff;
-	text-shadow: 0px 3px 5px rgba(150, 150, 150, 0.75);
+	text-shadow: 0 3px 5px rgba(150, 150, 150, 0.75);
 }
 
 .search-form{
@@ -109,9 +109,9 @@
 }
 
 .search-form:hover, .search-form:focus, .search-form:active{
-	-webkit-box-shadow: 0px 3px 1px -1px rgba(163,163,163,1);
-	-moz-box-shadow: 0px 3px 1px -1px rgba(163,163,163,1);
-	box-shadow: 0px 3px 1px -1px rgba(163,163,163,1);
+	-webkit-box-shadow: 0 3px 1px -1px rgba(163,163,163,1);
+	-moz-box-shadow: 0 3px 1px -1px rgba(163,163,163,1);
+	box-shadow: 0 3px 1px -1px rgba(163,163,163,1);
 }
 
 .search-form::placeholder{
@@ -126,4 +126,6 @@
 	transition: opacity 0.3s ease;
 }
 
-
+.name-selector:before{
+	content: none!important;
+}

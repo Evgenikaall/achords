@@ -3,14 +3,19 @@ package com.achords.model.dto.user;
 import com.achords.model.entity.user.User;
 import lombok.Getter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
 
 @ToString
 @Getter

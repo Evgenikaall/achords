@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymleaf.org/extras/spring-security"
+>
 <body>
 <header th:fragment="header">
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <div class="navbar-brand col-sm-2 logo-container mr-auto">
+            <div class="navbar-brand col-sm-1 logo-container">
                 <img th:src="@{/img/logo.png}" th:href="@{/}" class="logo">
             </div>
-            <ul class="navbar-nav col-sm-4" id="navbar-links">
+            <ul class="navbar-nav col-sm-3" id="navbar-links">
                 <li class="nav-item"><a href="#" class="nav-link">Tabs</a></li>
-                <li class="nav-item ml-auto"><a href="#" class="nav-link">News</a></li>
                 <li class="nav-item ml-auto"><a th:href="@{/add_new}" class="nav-link">Post Tabs</a></li>
             </ul>
             <div class="col-sm-4" id="searchRowSize">
@@ -17,8 +18,17 @@
                     <input type="search" placeholder="Search" class="search-form w-100" id="searchRow">
                 </form>
             </div>
-            <ul class="navbar-nav col-sm-1 mr-auto">
-                <li class="nav-item "><a th:href="@{/login}" class="nav-link">Login</a></li>
+            <ul class="navbar-nav col-sm-3 mr-auto text-center">
+                <authority class="nav-link" sec:authorize="isFullyAuthenticated()">
+<!--                    <div class="nav-link d-inline" sec:authentication="name"></div>-->
+                    <div sec:authentication="name" class="nav-item nav-link name-selector"></div>
+                    <a th:href="@{/logout}" class="nav-item nav-link">Logout</a>
+                </authority>
+                <authority class="nav-link" sec:authorize="!isFullyAuthenticated()">
+                    <a th:href="@{/login}" class="nav-item nav-link">Login</a>
+                    <a th:href="@{/registration}" class="nav-item nav-link">Register</a>
+                </authority>
+
             </ul>
         </div>
     </nav>
