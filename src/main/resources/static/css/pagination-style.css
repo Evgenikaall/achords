@@ -1,0 +1,38 @@
+.paginationjs .paginationjs-pages{
+    float: none !important;
+    display: flex;
+}
+.paginationjs .paginationjs-pages li {
+    border: none;
+}
+
+.paginationjs .paginationjs-pages li:last-child {
+    border-right: none;
+    border-radius: 0;
+}
+
+.paginationjs .paginationjs-pages li.active{
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.paginationjs .paginationjs-pages li>a {
+    background: none !important;
+    color: white;
+    height: 32px;
+    line-height: 30px;
+    font-size: 16px;
+    font-family: 'Nixie One', cursive;
+    transition: background-color 0.5s ease-in-out;
+}
+
+.paginationjs .paginationjs-pages li>a:hover {
+    background:rgba(255, 255, 255, 0.1) !important;
+    height: 32px;
+
+}
+
+.paginationjs .paginationjs-pages li.active>a{
+    line-height: 28px;
+}
+
+

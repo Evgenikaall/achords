@@ -16,15 +16,14 @@ public class RestPostController {
 
     private final PostService postService;
 
-    @GetMapping("/page/{pageNo}")
-    public ResponseEntity<List<PostDTO>> getAll(@PathVariable Integer pageNo) {
+    @GetMapping
+    public ResponseEntity<List<PostDTO>> getAll() {
         try{
-            return ResponseEntity.ok(postService.findPaginated(pageNo));
+            return ResponseEntity.ok(postService.findAll());
         }catch (Exception e){
             return ResponseEntity.noContent().build();
         }
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<PostDTO> getPost(@PathVariable Integer id) {

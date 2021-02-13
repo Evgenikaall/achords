@@ -1,12 +1,9 @@
 package com.achords.service.post;
 
 import com.achords.model.dto.post.PostDTO;
-import com.achords.model.dto.song.SongDTO;
 import com.achords.model.entity.post.Post;
 import com.achords.repository.postRepo.PostRepo;
 import com.achords.utils.converters.PostConverter;
-import com.achords.utils.converters.SongConverter;
-import com.achords.utils.converters.UserConverter;
 import com.achords.utils.exceptions.PostNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,10 +22,8 @@ public class PostService {
     private final PostRepo postRepo;
     private final PostConverter postConverter;
 
-    public List<PostDTO> findPaginated(int pageNo) {
-        Pageable paging = PageRequest.of(pageNo, 20, Sort.by("views").descending());
-        Page<PostDTO> page = postRepo.findAll(paging).map(postConverter::mapToDTO);
-        return page.toList();
+    public List<PostDTO> findAll(){
+        return postRepo.findAll().stream().map(postConverter::mapToDTO).collect(Collectors.toList());
     }
 
     public Post save(Post post) {
